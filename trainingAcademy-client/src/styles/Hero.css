@@ -1,0 +1,184 @@
+.hero{
+height:650px;
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+position:relative;
+display:flex;
+align-items:center;
+transition:background-image 1s ease-in-out;
+}
+
+/* overlay */
+
+.hero-overlay{
+position:absolute;
+inset:0;
+background:rgba(15,30,61,0.55);
+}
+
+/* container */
+
+.hero-container{
+position:relative;
+z-index:2;
+max-width:1200px;
+margin:auto;
+padding:0 20px;
+
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:40px;
+
+color:white;
+}
+
+/* LEFT SIDE */
+
+.hero-left{
+max-width:550px;
+}
+
+.hero-left h1{
+font-size:60px;
+font-weight:700;
+line-height:1.1;
+margin-bottom:20px;
+letter-spacing:1px;
+}
+
+.hero-left p{
+font-size:16px;
+line-height:1.6;
+margin-bottom:30px;
+color:#e2e8f0;
+}
+
+/* SEARCH */
+
+.hero-search{
+display:flex;
+align-items:center;
+gap:15px;
+}
+
+.hero-search input{
+flex:1;
+padding:14px 20px;
+border:none;
+border-radius:30px;
+font-size:14px;
+outline:none;
+}
+
+.hero-search button{
+background:#22c1dc;
+color:white;
+border:none;
+padding:14px 24px;
+border-radius:30px;
+cursor:pointer;
+font-weight:500;
+}
+
+/* RIGHT CARD */
+
+.hero-card{
+width:320px;
+background:#1e293b;
+padding:30px;
+border-radius:16px;
+box-shadow:0 15px 35px rgba(0,0,0,0.3);
+}
+
+.hero-card h3{
+font-size:20px;
+margin-bottom:10px;
+}
+
+.hero-card p{
+font-size:14px;
+color:#cbd5f5;
+margin-bottom:20px;
+line-height:1.5;
+}
+
+/* BUTTONS */
+
+.enrol-btn{
+width:100%;
+padding:12px;
+background:#0f172a;
+color:white;
+border:none;
+border-radius:30px;
+margin-bottom:10px;
+cursor:pointer;
+font-weight:600;
+}
+
+.voc-btn{
+width:100%;
+padding:12px;
+background:#2563eb;
+border:none;
+border-radius:30px;
+color:white;
+cursor:pointer;
+font-weight:600;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1024px){
+
+.hero-container{
+flex-direction:column;
+text-align:center;
+}
+
+.hero-left{
+max-width:600px;
+}
+
+.hero-left h1{
+font-size:44px;
+}
+
+.hero-search{
+justify-content:center;
+flex-wrap:wrap;
+}
+
+.hero-card{
+width:100%;
+max-width:350px;
+}
+
+}
+
+@media(max-width:768px){
+
+.hero{
+height:auto;
+padding:80px 0;
+}
+
+.hero-left h1{
+font-size:36px;
+}
+
+.hero-search{
+flex-direction:column;
+}
+
+.hero-search input{
+width:100%;
+}
+
+.hero-search button{
+width:100%;
+}
+
+}

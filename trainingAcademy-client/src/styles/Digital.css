@@ -1,0 +1,30 @@
+.digital-container{
+margin-top:20px;
+display:flex;
+flex-direction:column;
+gap:15px;
+}
+
+.digital-select{
+padding:12px;
+border-radius:8px;
+border:1px solid #e5e7eb;
+}
+
+.digital-next-btn{
+align-self:flex-end;
+background:linear-gradient(90deg,#9333ea,#ec4899);
+border:none;
+color:white;
+padding:12px 28px;
+border-radius:8px;
+cursor:pointer;
+}
+
+@media(max-width:768px){
+
+.digital-next-btn{
+width:100%;
+}
+
+}

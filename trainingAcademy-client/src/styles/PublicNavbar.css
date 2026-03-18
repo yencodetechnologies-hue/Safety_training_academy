@@ -1,0 +1,157 @@
+.public-navbar{
+  width:100%;
+  background:#0f1e3d;
+  color:white;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.navbar-container{
+  max-width:1400px;
+  margin:auto;
+  padding:28px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.login-link{
+  color:white;
+  text-decoration:none;
+} 
+/* LOGO */
+
+.navbar-logo{
+  font-size:22px;
+  font-weight:700;
+  letter-spacing:1px;
+  display: flex;
+  align-items: center;
+  
+}
+.navbar-logo > img{
+  height: 45px;
+}
+
+.logo span{
+  color:#24d2ff;
+}
+
+/* NAV LINKS */
+
+.nav-links{
+  display:flex;
+  list-style:none;
+  gap:30px;
+}
+
+.nav-links li{
+  cursor:pointer;
+  font-size:15px;
+  font-weight:500;
+}
+
+.nav-links li:hover{
+  color:#24d2ff;
+}
+
+/* BUTTONS */
+
+.nav-buttons{
+  display:flex;
+  gap:10px;
+  align-items:center;
+}
+
+.nav-buttons button{
+  padding:8px 16px;
+  border-radius:25px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+/* BUTTON STYLES */
+
+.combo-btn{
+  background:linear-gradient(90deg,#00d2ff,#3a7bd5);
+  color:white;
+}
+
+.book-btn{
+  background:#1bc6e5;
+  color:white;
+}
+
+.pub-voc-btn{
+  border:1px solid #24d2ff !important;
+  background:#19354a;
+  color:#24d2ff;
+  width: auto;
+padding:14px;
+border-radius:30px;
+
+font-weight:600;
+}
+
+.login-btn{
+  background:transparent;
+  border:1px solid white;
+  color:white;
+}
+
+.phone-btn{
+  background:#1b2c4f;
+  color:white;
+}
+
+/* MOBILE MENU */
+
+.mobile-menu{
+  display:none;
+  font-size:24px;
+  cursor:pointer;
+}@media(max-width:1024px){
+
+.nav-links{
+  display:none;
+}
+
+.nav-buttons{
+  display:none;
+}
+
+.mobile-menu{
+  display:block;
+}
+
+}
+@media(max-width:768px){
+
+.navbar-container{
+  padding:12px 15px;
+}
+
+.logo{
+  font-size:18px;
+}
+
+.mobile-menu{
+  font-size:26px;
+}
+
+}
+@media(min-width:1400px){
+
+.navbar-container{
+  max-width:1500px;
+}
+
+.nav-links li{
+  font-size:16px;
+}
+
+.nav-buttons button{
+  padding:10px 18px;
+}
+
+}

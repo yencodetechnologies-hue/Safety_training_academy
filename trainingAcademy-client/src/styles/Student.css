@@ -1,0 +1,52 @@
+body{
+margin:0;
+font-family:Arial;
+}
+
+.container{
+height:100vh;
+display:flex;
+flex-direction:column;
+}
+
+/* navbar */
+
+
+
+.nav-icons{
+font-size:20px;
+display:flex;
+gap:15px;
+}
+
+/* layout */
+
+.layout{
+display:flex;
+flex:1;
+}
+
+/* sidebar */
+
+
+
+.sidebar button{
+padding:10px;
+border:none;
+background:white;
+cursor:pointer;
+text-align:left;
+}
+
+
+.logout{
+color:red;
+}
+
+/* main content */
+
+.content{
+flex:1;
+padding:30px;
+background:#fafafa;
+}

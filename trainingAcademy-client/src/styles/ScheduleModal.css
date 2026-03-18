@@ -1,0 +1,288 @@
+/* OVERLAY */
+
+.csm-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.45);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:999;
+}
+
+
+/* MODAL CONTAINER */
+
+.csm-container{
+background:#fff;
+width:700px;
+max-width:95%;
+max-height:90vh;
+overflow-y:auto;
+border-radius:12px;
+padding:25px;
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+}
+
+
+/* HEADER */
+
+.csm-header{
+display:flex;
+justify-content:space-between;
+align-items:flex-start;
+margin-bottom:20px;
+}
+
+.csm-title{
+font-size:20px;
+font-weight:700;
+}
+
+.csm-subtitle{
+font-size:13px;
+color:#777;
+margin-top:3px;
+}
+
+.csm-close-btn{
+border:none;
+background:#f2f2f2;
+width:34px;
+height:34px;
+border-radius:6px;
+cursor:pointer;
+font-size:15px;
+}
+
+
+/* FORM CARD */
+
+.csm-form-card{
+border:1px solid #eee;
+border-radius:10px;
+padding:18px;
+margin-bottom:25px;
+}
+
+
+/* GRID */
+
+.csm-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+}
+
+.csm-field{
+display:flex;
+flex-direction:column;
+}
+
+.csm-field label{
+font-size:13px;
+margin-bottom:4px;
+color:#555;
+}
+
+.csm-field input,
+.csm-field select{
+padding:8px 10px;
+border:1px solid #ddd;
+border-radius:6px;
+font-size:14px;
+}
+
+
+/* ADD BUTTON */
+
+.csm-add-date-btn{
+margin-top:15px;
+background:linear-gradient(90deg,#7b2ff7,#f107a3);
+color:white;
+border:none;
+padding:10px 16px;
+border-radius:6px;
+cursor:pointer;
+font-size:14px;
+}
+
+
+/* SCHEDULE SECTION */
+
+.csm-schedule-section{
+    margin-top: 10px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding-right: 6px;
+}
+
+.csm-section-title{
+font-size:17px;
+margin-bottom:10px !important;
+font-weight:600;
+}
+.csm-schedule-section::-webkit-scrollbar{
+  width:6px;
+}
+
+.csm-schedule-section::-webkit-scrollbar-thumb{
+  background:#ddd;
+  border-radius:10px;
+}
+
+
+/* DATE BLOCK */
+
+.csm-date-block{
+border:1px solid #eee;
+border-radius:10px;
+padding:14px;
+margin-bottom:12px;
+}
+
+.csm-date-header{
+font-weight:600;
+font-size:14px;
+margin-bottom:10px;
+}
+
+
+/* SESSION CARD */
+
+.csm-session-card{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px;
+  border:1px solid #eee;
+  border-radius:10px;
+  margin-top:10px;
+}
+.csm-session-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.csm-tag{
+  background:#f3f4f6;
+  padding:4px 10px;
+  border-radius:6px;
+  font-size:13px;
+}
+
+.csm-time{
+font-size:13px;
+color:#555;
+}
+
+
+/* RIGHT SIDE */
+.csm-session-right{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.csm-capacity{
+font-size:12px;
+color:#777;
+}
+
+.csm-delete{
+  border:none;
+  background:none;
+  color:red;
+  cursor:pointer;
+  font-size:16px;
+}
+
+
+/* FOOTER */
+
+.csm-footer{
+display:flex;
+justify-content:flex-end;
+margin-top:20px;
+}
+
+.csm-cancel-btn{
+background:#eee;
+border:none;
+padding:10px 16px;
+border-radius:6px;
+cursor:pointer;
+}
+
+/* session count near date */
+
+.csm-session-count{
+  background:#f1f1f1;
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+  margin-left:10px;
+}
+
+
+/* available slots */
+
+.csm-avl-slot{
+  color:#6b7280;
+  font-size:14px;
+}
+
+
+/* deactivate button */
+
+.csm-toggle{
+  border:none;
+  background:none;
+  color:#6b7280;
+  cursor:pointer;
+  font-weight:500;
+}
+
+.csm-toggle:hover{
+  color:#111;
+}
+
+.csm-no-session{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+}
+
+@media (max-width:768px){
+
+.csm-container{
+width:95%;
+padding:18px;
+}
+
+.csm-grid{
+grid-template-columns:1fr;
+}
+
+.csm-session-card{
+flex-direction:column;
+align-items:flex-start;
+gap:8px;
+}
+
+.csm-session-right{
+width:100%;
+justify-content:space-between;
+}
+
+}
+@media (max-width:1400px){
+    .csm-no-session{
+        margin-top: 40px ;
+    }
+}
