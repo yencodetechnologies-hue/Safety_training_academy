@@ -1,3 +1,18 @@
+
+.back-btn-login {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: 1px solid #ebebf0 !important;
+    border-radius: 10px;
+    margin-left: 20px;
+    color: black !important;
+
+}
+.back-btn-login:hover{
+    background: linear-gradient(90deg,#7b2ff7,#f107a3) !important;
+color:white !important;
+}
+
 @media (max-width:480px){
 
 .login-container{

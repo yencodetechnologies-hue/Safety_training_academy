@@ -59,8 +59,8 @@ function AdminDashboard() {
     return (
 
         <section>
-
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div className="calandar-div">
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 
                 <h3>📅 Bookings This Week</h3>
 
@@ -110,7 +110,7 @@ function AdminDashboard() {
                 })}
 
             </div>
-
+            </div>
         </section>
 
     )

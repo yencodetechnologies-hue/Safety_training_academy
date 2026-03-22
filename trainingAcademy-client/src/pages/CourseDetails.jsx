@@ -2,13 +2,13 @@ import { useParams } from "react-router-dom"
 import { useEffect, useState } from "react"
 import axios from "axios"
 import "../styles/CourseDetails.css"
-import TopNav from "../components/TopNav"
-import TrustBar from "../components/TrustBar"
+import TopNav from "../components/landingPage/TopNav"
+import TrustBar from "../components/landingPage/TrustBar"
 import PublicNavbar from "../components/PublicNavbar"
-import CourseDetailsHero from "../components/CourseDetailHero"
+import CourseDetailsHero from "../components/course/CourseDetailHero"
 import ViewDetailsLeft from "../components/ViewDetailsLeft"
 import ViewDetailsRight from "../components/ViewDetailsRight"
-import Footer from "../components/Footer"
+import Footer from "../components/landingPage/Footer"
 function CourseDetails() {
 
     const { id } = useParams()
@@ -41,7 +41,7 @@ function CourseDetails() {
 
             <TopNav />
             <TrustBar />
-            <PublicNavbar />
+            <PublicNavbar courses={courses}/>
             <CourseDetailsHero course={course} />  
             <div className="course-details-content">
                <ViewDetailsLeft course={course} />
