@@ -33,7 +33,7 @@ onSubmit: async(values)=>{
 try{
 
 const res = await axios.post(
-"http://localhost:8000/api/auth/login",
+"https://safety-training-academy.onrender.com/api/auth/login",
 values
 )
 

@@ -21,7 +21,7 @@ function CourseSelection({
 
             try {
 
-                const res = await axios.get("http://localhost:8000/api/courses")
+                const res = await axios.get("https://safety-training-academy.onrender.com/api/courses")
                 setCourses(res.data)
 
             } catch (err) {
@@ -61,7 +61,7 @@ setSelectedCourse(selected)
         try {
 
             const res = await axios.get(
-                `http://localhost:8000/api/schedules/course/${courseId}`
+                `https://safety-training-academy.onrender.com/api/schedules/course/${courseId}`
             )
 
             setSlots(res.data)

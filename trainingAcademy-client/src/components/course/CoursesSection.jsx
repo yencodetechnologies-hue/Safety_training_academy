@@ -10,7 +10,7 @@ function CoursesSection() {
 
     useEffect(() => {
 
-        axios.get("http://localhost:8000/api/courses")
+        axios.get("https://safety-training-academy.onrender.com/api/courses")
             .then(res => setCourses(res.data))
 
     }, [])

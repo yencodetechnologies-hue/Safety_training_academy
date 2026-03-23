@@ -52,7 +52,7 @@ function EnrollmentForms() {
   const rejected = data.filter((r) => r.status === "Rejected").length;
     const fetchForms = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/enrollment-form");
+      const res = await axios.get("https://safety-training-academy.onrender.com/api/enrollment-form");
 
       const formatted = res.data.map((item, index) => ({
         id: item._id,

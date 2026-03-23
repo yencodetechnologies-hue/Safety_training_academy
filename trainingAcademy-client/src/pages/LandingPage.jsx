@@ -18,7 +18,7 @@ function LandingPage() {
 useEffect(() => {
   const fetchCourses = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/api/courses"); // change your API
+      const res = await axios.get("https://safety-training-academy.onrender.com/api/courses"); // change your API
       setCourses(res.data);
     } catch (err) {
       console.error(err);

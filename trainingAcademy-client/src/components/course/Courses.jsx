@@ -20,7 +20,7 @@ function Courses() {
 
     const fetchCourses = async () => {
         try {
-            const res = await axios.get("http://localhost:8000/api/courses");
+            const res = await axios.get("https://safety-training-academy.onrender.com/api/courses");
             setCourses(res.data);
         } catch (error) {
             console.log(error);
@@ -33,7 +33,7 @@ function Courses() {
         const confirmDelete = window.confirm("Are you sure you want to delete this course?");
         if (!confirmDelete) return;
         try {
-            await axios.delete(`http://localhost:8000/api/courses/${id}`);
+            await axios.delete(`https://safety-training-academy.onrender.com/api/courses/${id}`);
             fetchCourses();
         } catch (err) {
             console.log(err);
@@ -59,7 +59,7 @@ function Courses() {
                 </div>
                 <div className="course-management-div">
                     <p>
-                        🏷️ Manage Categories
+                        <i class="fa-solid fa-tag"></i>Manage Categories
                     </p>
                     <p>
                         ☰ Reorder Courses
@@ -76,7 +76,6 @@ function Courses() {
                 <p>Find courses by name or course code</p>
                 <div className="courses-search-row">
                     <div className="courses-search">
-                        <span className="search-icon">🔍</span>
                         <input
                             type="text"
                             placeholder="Search courses by name or code..."
@@ -90,7 +89,7 @@ function Courses() {
                         <option>Inactive</option>
                     </select>
                     <button className="search-btn">
-                        🔍 Search
+                        <i className="fa-solid fa-magnifying-glass"></i> Search
                     </button>
                 </div>
             </div>
@@ -156,7 +155,7 @@ function Courses() {
                                                         setOpenSchedule(true);
                                                     }}
                                                 >
-                                                    📅
+                                                   <i className="fa-regular fa-calendar"></i>
                                                 </button>
 
                                                 <button

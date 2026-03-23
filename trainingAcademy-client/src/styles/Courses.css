@@ -73,7 +73,7 @@
 }
 
 .courses-search-wrapper h3 {
-    font-size: 15px;
+    font-size: larger;
     font-weight: 600;
     color: #111827;
     margin: 0 0 2px 0;
@@ -97,7 +97,7 @@
 }
 
 .courses-search input {
-    padding: 10px 10px 10px 38px;
+    padding: 10px 10px 10px 20px;
     border: 1px solid #e5e7eb;
     border-radius: 8px;
     width: 100%;
@@ -238,7 +238,7 @@
 }
 
 .drag-handle {
-    color: #d1d5db;
+    color: black;
     font-size: 16px;
     cursor: grab;
     margin-right: 4px;
@@ -262,6 +262,7 @@
 
 .course-info p {
     margin: 0;
+    font-size: medium;
 }
 
 .original-price {
