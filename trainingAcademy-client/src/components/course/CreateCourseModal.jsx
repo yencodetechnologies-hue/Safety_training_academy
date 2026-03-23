@@ -1,7 +1,7 @@
 import { useState,useEffect } from "react";
 import { useFormik } from "formik"
 import axios from "axios"
-import "../../styles/createCourseModal.css";
+import "../../styles/CreateCourseModal.css";
 import DynamicField from "../DynamicField";
 
 

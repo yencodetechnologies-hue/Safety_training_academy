@@ -15,7 +15,7 @@ function PortalLayout({ user }) {
 
                 <Sidebar user={user} />
 
-                <div style={{ flex: 1, padding: "30px", overflowY: "auto", height: "calc(100vh - 70px)",background:"#f5f3ff" }}>
+                <div style={{ flex: 1,  overflowY: "auto", height: "calc(100vh - 70px)",background:"#f5f3ff" }} className="main-layout-admin">
                     <Outlet />
                 </div>
 

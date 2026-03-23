@@ -130,7 +130,7 @@ function PublicNavbar({ courses = [] }) {
         <div className={`nav-buttons ${mobileMenuOpen ? 'mobile-open' : ''}`}>
 
 
-          <button className="combo-btn"
+          <button className="combo-btn combo-btn-navbar"
 
           >
             Combo Courses
@@ -148,7 +148,7 @@ function PublicNavbar({ courses = [] }) {
             <Link className="login-link" to="/login">Login / Register</Link>
           </button>
 
-          <button className="phone-btn">
+          <button className="phone-btn phone-btn-navbar">
             📞 1300 976 097
           </button>
 

@@ -13,11 +13,11 @@ const numeracyQuestions = [
         subQuestions: [
             {
                 label: "(a) Total cost",
-                options: ["$64", "$96", "$128"]
+                options: ["$64", "$96", "$128","$160"]
             },
             {
                 label: "(b) If you pay with $100 how much change will you get?",
-                options: ["$2", "$4", "$6"]
+                options: ["$2", "$4", "$6","$8"]
             }
         ]
     },
@@ -30,11 +30,11 @@ const numeracyQuestions = [
         subQuestions: [
             {
                 label: "(a) How many barriers are needed to cover 12 metres?",
-                options: ["4 barriers", "5 barriers", "6 barriers"]
+                options: ["3 barriers","4 barriers", "5 barriers", "6 barriers"]
             },
             {
                 label: "(b) If each barrier weighs 15 kg, what is the total weight of 5 barriers?",
-                options: ["60 kg", "75 kg", "90 kg"]
+                options: ["60 kg", "65 kg", "70 kg", "75 kg"]
             }
         ]
     },
@@ -47,11 +47,11 @@ const numeracyQuestions = [
         subQuestions: [
             {
                 label: "(a) What is the combined total load of Worker A and B?",
-                options: ["201 kg", "202 kg", "203 kg"]
+                options: ["176 kg","186 kg", "196 kg", "201 kg"]
             },
             {
                 label: "(b) How much load is left before the scaffold reaches its limit?",
-                options: ["98 kg", "99 kg", "100 kg"]
+                options: ["84 kg","94 kg", "99 kg", "104 kg"]
             }
         ]
     }

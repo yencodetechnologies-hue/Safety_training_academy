@@ -1,0 +1,13 @@
+.main-layout-admin{
+    padding: "30px"
+}
+@media (max-width:425px) {
+    .main-layout-admin{
+        padding: 0px ;
+    }
+}
+@media (max-width:768px) {
+    .main-layout-admin{
+        padding: 30px ;
+    }
+}

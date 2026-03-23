@@ -7,132 +7,132 @@ import axios from "axios";
 
 function RegisterForm() {
 
-const formik = useFormik({
+    const formik = useFormik({
 
-initialValues:{
-name:"",
-email:"",
-phone:"",
-password:"",
-role:"student",
-},
+        initialValues: {
+            name: "",
+            email: "",
+            phone: "",
+            password: "",
+            role: "student",
+        },
 
-validationSchema:Yup.object({
-name:Yup.string().required("Name required"),
-email:Yup.string().email("Invalid email").required("Email required"),
-phone:Yup.string().required("Phone required"),
-password:Yup.string().min(6,"Minimum 6 characters").required("Password required"),
-}),
+        validationSchema: Yup.object({
+            name: Yup.string().required("Name required"),
+            email: Yup.string().email("Invalid email").required("Email required"),
+            phone: Yup.string().required("Phone required"),
+            password: Yup.string().min(6, "Minimum 6 characters").required("Password required"),
+        }),
 
-onSubmit: async(values,{resetForm}) => {
+        onSubmit: async (values, { resetForm }) => {
 
-try{
+            try {
 
-const res = await axios.post(
-"https://safety-training-academy.onrender.com/api/auth/register",
-values
-)
+                const res = await axios.post(
+                    "https://safety-training-academy.onrender.com/api/auth/register",
+                    values
+                )
 
-alert(res.data.message)
+                alert(res.data.message)
 
-resetForm()
+                resetForm()
 
-}catch(err){
+            } catch (err) {
 
-alert(err.response?.data?.message || "Registration failed")
+                alert(err.response?.data?.message || "Registration failed")
 
-}
+            }
 
-}
+        }
 
-})
+    })
 
-return (
+    return (
 
-<div className="login-box">
+        <div className="login-box">
 
-<h3>Welcome Back</h3>
+            <h3 className="welcome">Welcome Back</h3>
 
-<p className="subtitle">
-Sign in to your account or create a new one
-</p>
+            <p className="subtitle subtitle-register">
+                Sign in to your account or create a new one
+            </p>
 
-<div className="tabs">
-<Link className="tab" to="/login">Sign In</Link>
-<Link className="tab active" to="/register">Register</Link>
-</div>
+            <div className="tabs">
+                <Link className="tab" to="/login">Sign In</Link>
+                <Link className="tab active" to="/register">Register</Link>
+            </div>
 
-<form onSubmit={formik.handleSubmit}>
+            <form onSubmit={formik.handleSubmit} className="input-wrapper-text">
 
-<label>Full Name</label>
-<input
-type="text"
-name="name"
-placeholder="John Doe"
-value={formik.values.name}
-onChange={formik.handleChange}
-onBlur={formik.handleBlur}
-/>
+                <label>Full Name</label>
+                <input
+                    type="text"
+                    name="name"
+                    placeholder="John Doe"
+                    value={formik.values.name}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                />
 
-<label>Email</label>
-<input
-type="email"
-name="email"
-placeholder="you@example.com"
-value={formik.values.email}
-onChange={formik.handleChange}
-onBlur={formik.handleBlur}
-/>
+                <label>Email</label>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="you@example.com"
+                    value={formik.values.email}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                />
 
-<label>Phone Number</label>
-<input
-type="text"
-name="phone"
-placeholder="+1 (555) 123-4567"
-value={formik.values.phone}
-onChange={formik.handleChange}
-onBlur={formik.handleBlur}
-/>
+                <label>Phone Number</label>
+                <input
+                    type="text"
+                    name="phone"
+                    placeholder="+1 (555) 123-4567"
+                    value={formik.values.phone}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                />
 
-<label>Password</label>
-<input
-type="password"
-name="password"
-placeholder="••••••••"
-value={formik.values.password}
-onChange={formik.handleChange}
-onBlur={formik.handleBlur}
-/>
-<label>Role</label>
+                <label>Password</label>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="••••••••"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                />
+                <label>Role</label>
 
-<select
-className="role-select"
-name="role"
-value={formik.values.role}
-onChange={formik.handleChange}
->
-<option value="Student">Student</option>
-<option value="Teacher">Teacher</option>
-<option value="Admin">Admin</option>
+                <select
+                    className="role-select"
+                    name="role"
+                    value={formik.values.role}
+                    onChange={formik.handleChange}
+                >
+                    <option value="Student">Student</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="Admin">Admin</option>
 
-</select>
+                </select>
 
-<div className="options">
-<label>
-<input type="checkbox" />
-I agree to the Terms of Service and Privacy Policy
-</label>
-</div>
+                <div className="options options-agree">
+                    <label>
+                        <input type="checkbox" />
+                        <span>I agree to the Terms of Service and Privacy Policy</span>
+                    </label>
+                </div>
 
-<button className="signin-btn" type="submit">
-Create Account
-</button>
+                <button className="signin-btn" type="submit">
+                    Create Account
+                </button>
 
-</form>
+            </form>
 
-</div>
+        </div>
 
-);
+    );
 }
 
 export default RegisterForm;

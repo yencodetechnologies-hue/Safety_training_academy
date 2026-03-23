@@ -65,27 +65,27 @@ Silvia Chinoto`,
             {
                 label: "(a) Whose responsibility is it to keep patients safe from infection?",
                 options: [
+                    "Everyone",
                     "Doctors only",
                     "Nurses only",
-                    "Everyone",
                     "Patients only"
                 ]
             },
             {
                 label: "(b) How many ways does the poster tell you to keep patients safe?",
-                options: ["5", "7", "9", "10"]
+                options: ["5", "7", "9", "11"]
             },
             {
                 label: "(c) How many times should you use a needle and syringe?",
-                options: ["Once", "Twice", "Three times", "Unlimited"]
+                options: ["1", "2", "3 ", "As many as needed"]
             },
             {
                 label: "(d) When should you clean your hands?",
                 options: [
-                    "Before care only",
-                    "After care only",
-                    "Before and after care",
-                    "Once a day"
+                    "Before providing care ",
+                    "After providing care ",
+                    "Before and after providing care",
+                    "Only when dirty"
                 ]
             }
         ]
@@ -154,15 +154,7 @@ Which three items of PPE must workers wear on site?`,
         passage: `"All workers must wear hard hats, steel-capped boots and high-visibility vests while on a construction site. Personal protective equipment (PPE) must be checked daily. Report any damaged PPE or equipment immediately to the site supervisor. Workers must follow all safety signs and instructions at all times."`,
 
         questions: [
-            {
-                question: "Which three items of PPE must workers wear on site?",
-                options: [
-                    "Steel-capped boots, safety glasses, high-visibility vests",
-                    "Hard hats, steel-capped boots, high-visibility vests",
-                    "Safety glasses, gloves, ear plugs",
-                    "Safety glasses, hard hats, gloves"
-                ]
-            },
+            
             {
                 question: "Who should workers report damaged PPE or equipment to?",
                 options: [
@@ -249,8 +241,8 @@ function Literacy({ next }) {
                 "0-3": "Bridgestone",
                 "1-0": "Everyone",
                 "1-1": "9",
-                "1-2": "Once",
-                "1-3": "Before and after care",
+                "1-2": "1",
+                "1-3": "Before and after providing care",
                 "2-0": "hand",
                 "2-1": "forklift",
                 "2-2": "ground",

@@ -27,6 +27,15 @@ margin:0 auto;
 }
 
 
+
+@media (max-width:425px){
+
+.register-container{
+    padding: 0px;
+}
+
+}
+
 @media (max-width:768px){
 
 .auth-wrapper{

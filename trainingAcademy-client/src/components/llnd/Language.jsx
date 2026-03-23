@@ -1,6 +1,7 @@
 import { useState } from "react"
 import "../../styles/Language.css"
 import familyImage from "../../assets/family.jpg"
+import llndAudio from "../../assets/Question Audio.mp3"
 
 const languageQuestions = [
   {
@@ -14,7 +15,7 @@ const languageQuestions = [
     subQuestions: [
       {
         label: "(a) When did Carlos and Marina emigrate to Australia?",
-        options: ["2010", "2015", "2018", "2020"]
+        options: ["January 2020", "May 2020", "September 2020", "December 2020"]
       },
       {
         label: "(b) How many children do they have?",
@@ -22,19 +23,19 @@ const languageQuestions = [
       },
       {
         label: "(c) What type of visa did they enter Australia on?",
-        options: ["Student", "Work", "Tourist", "PR"]
+        options: ["Tourist Visa", "Work Visa", "Skilled Migration Visa", "Student Visa"]
       },
       {
         label: "(d) What job does Marina do?",
-        options: ["Nurse", "Teacher", "Chef", "Cleaner"]
+        options: [ "Teacher","Nurse", "Computer Programmer", "Engineer"]
       },
       {
         label: "(e) Are they doing their English class in the evening or during the day?",
-        options: ["Morning", "Evening"]
+        options: ["Morning","Afternoon", "Evening","Night"]
       },
       {
         label: "(f) Where are they doing their English course?",
-        options: ["TAFE", "University", "Online", "School"]
+        options: ["Online", "University","Local TAFE",  "Community Center"]
       }
     ]
   }
@@ -71,12 +72,12 @@ function Language({ next }) {
  
 
       const correctAnswers = {
-        "0-0": "2015",
+        "0-0": "May 2020",
         "0-1": "2",
-        "0-2": "Work",
-        "0-3": "Cleaner",
+        "0-2": "Skilled Migration Visa",
+        "0-3": "Computer Programmer",
         "0-4": "Evening",
-        "0-5": "TAFE"
+        "0-5": "Local TAFE"
       }
 
       let score = 0
@@ -117,7 +118,7 @@ function Language({ next }) {
             <p className="audio-note">{question.note}</p>
 
             <audio controls className="audio-player">
-              <source src={question.audio} type="audio/mpeg" />
+              <source src={llndAudio} type="audio/mpeg" />
             </audio>
 
             <img src={question.image} alt="family" />

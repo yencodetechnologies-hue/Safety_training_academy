@@ -1,6 +1,8 @@
 
 import { useState } from "react"
 import "../styles/AdminDashboard.css"
+import VOCStatsCard from "../components/voc/VocStatsCard"
+import QuickActions from "../components/QuickActions"
 function AdminDashboard() {
 
     const bookings = {
@@ -59,7 +61,8 @@ function AdminDashboard() {
     return (
 
         <section>
-            <div className="calandar-div">
+           <div>
+             <div className="calandar-div">
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
 
                 <h3>📅 Bookings This Week</h3>
@@ -111,6 +114,9 @@ function AdminDashboard() {
 
             </div>
             </div>
+            <VOCStatsCard/>
+            <QuickActions/>
+           </div>
         </section>
 
     )
