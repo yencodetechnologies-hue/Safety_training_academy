@@ -34,7 +34,7 @@ function LLNDAssessmentComplete({ data, onRetry }) {
           }
         </p>
 
-        <p className="attempt">Attempt 1 of 4</p>
+        <p className="attempt">Attempt {attempt} of 4</p>
 
         <p className="score">
           Total: {data.correct}/{data.total} ({data.percentage}%)

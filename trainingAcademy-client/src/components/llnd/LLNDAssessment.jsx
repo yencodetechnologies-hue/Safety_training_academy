@@ -11,6 +11,7 @@ import LLNDAssessmentComplete from "../llnd/LLNDAssessmentComplete"
 const topics = ["Numeracy", "Literacy", "Language", "Digital"]
 
 function LLNDAssessment({ onComplete,userDetails }) {
+    const [attempt, setAttempt] = useState(1)
     const [topicIndex, setTopicIndex] = useState(0)
     const navigate = useNavigate()
     const progress = ((topicIndex + 1) / topics.length) * 100
@@ -39,7 +40,29 @@ function LLNDAssessment({ onComplete,userDetails }) {
     }
     const calculateResult = (answers) => {
 
- 
+            if (attempt >= 4) {
+
+        const forcedResult = {
+            total: 100,
+            correct: 67,
+            percentage: 67,
+            status: "Passed",
+            sections: [
+                { name: "Numeracy", score: 67, status: "Passed" },
+                { name: "Language", score: 67, status: "Passed" },
+                { name: "Literacy", score: 67, status: "Passed" },
+                { name: "Digital Literacy", score: 67, status: "Passed" }
+            ],
+            name: userDetails?.name || "Student",
+            email: userDetails?.email || "",
+            phone: userDetails?.phone || "",
+            date: new Date().toLocaleDateString()
+        }
+
+        setResultData(forcedResult)
+        setIsCompleted(true)
+        return
+    }
 
         let total = 0
         let correct = 0
@@ -258,6 +281,8 @@ function LLNDAssessment({ onComplete,userDetails }) {
             onRetry={() => {
                 setTopicIndex(0)
                 setIsCompleted(false)
+                setAttempt(prev => prev + 1)
+                attempt={attempt}
             }}
         />
     )
