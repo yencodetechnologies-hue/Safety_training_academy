@@ -5,7 +5,6 @@ const {
   getCompanyById,
   createCompany,
   updateCompany, 
-  updateCompany,
   toggleCompanyStatus,
   deleteCompany,
   companyLogin,
