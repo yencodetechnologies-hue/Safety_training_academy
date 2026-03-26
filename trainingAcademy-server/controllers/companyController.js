@@ -28,7 +28,6 @@ exports.getAllCompanies = async (req, res) => {
         .sort({ createdAt: -1 })
         .skip(skip)
         .limit(Number(limit)),
-        
       Company.countDocuments(query),
     ]);
 
