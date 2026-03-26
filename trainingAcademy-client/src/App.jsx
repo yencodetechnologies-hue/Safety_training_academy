@@ -30,6 +30,7 @@ import VocMain from "./components/voc/VocMain"
 import Contact from "./components/Contact"
 import About from "./components/About"
 import CourseCard from "./components/course/CourseCard"
+import Companies from "./components/Companies"
 
 function App() {
 
@@ -83,6 +84,7 @@ function App() {
                     <Route path="google-reviews" element={<GoogleReviews />} />
                     <Route path="gallery" element={<Gallery />} />
                     <Route path="courses" element={<Courses />} />
+                    <Route path="companies" element={<Companies />} />
 
                 </Route>
 

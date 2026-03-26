@@ -37,7 +37,6 @@ function ContactPage() {
     return (
         <div className="cp-page">
             <TopNav />
-            <TrustBar />
             <PublicNavbar />
 
             {/* ── HERO ── */}

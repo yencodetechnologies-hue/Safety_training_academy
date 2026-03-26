@@ -68,6 +68,12 @@
   border: 1px solid #ccc;
   font-size: 14px;
   transition: 0.2s;
+    -webkit-appearance: none;
+  appearance: none;
+  background-color: #ffffff;
+  line-height: 1.5;
+  height: 44px;
+
 }
 
 .literacy-select:focus {
@@ -149,7 +155,7 @@
 }
 
 .scenario-text {
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.6;
   margin-bottom: 15px;
 }
@@ -159,6 +165,9 @@
   background: #e5e7eb;
   padding: 15px;
   border-radius: 8px;
+}
+.incident-form>input {
+  font-size: 14px;
 }
 
 .incident-form h5 {
@@ -182,6 +191,7 @@
   border: none;
   border-radius: 4px;
   background: #f3f4f6;
+  font-size: 14px;
 }
 .literacy-mcq-box {
   margin-bottom: 20px;

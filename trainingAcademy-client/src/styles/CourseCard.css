@@ -111,10 +111,12 @@ width:100%;
 background:white;
 border:2px solid #00bcd4;
 color:#00bcd4;
-padding:10px;
+padding:12px;
 border-radius:25px;
 font-weight:600;
 cursor:pointer;
+ -webkit-appearance: none;
+    appearance: none;
 }
 .courses-grid{
 display:grid;

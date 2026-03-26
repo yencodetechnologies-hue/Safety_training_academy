@@ -91,14 +91,14 @@ function CreateCourseModal({ close, categories, refreshCourses, editCourse }) {
                 if (editCourse) {
 
                     await axios.put(
-                        `https://safety-training-academy.onrender.com/api/courses/${editCourse._id}`,
+                        `https://safety-training-academy-1ws0.onrender.com/api/courses/${editCourse._id}`,
                         formData
                     )
 
                 } else {
 
                     await axios.post(
-                        "https://safety-training-academy.onrender.com/api/courses",
+                        "https://safety-training-academy-1ws0.onrender.com/api/courses",
                         formData
                     )
 

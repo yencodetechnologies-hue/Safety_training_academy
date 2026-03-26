@@ -29,7 +29,7 @@ function RegisterForm() {
             try {
 
                 const res = await axios.post(
-                    "https://safety-training-academy.onrender.com/api/auth/register",
+                    "https://safety-training-academy-1ws0.onrender.com/api/auth/register",
                     values
                 )
 

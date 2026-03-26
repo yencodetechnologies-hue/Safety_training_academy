@@ -1,103 +1,113 @@
+/* ===== TRUST BAR ===== */
+
 .trust-bar {
     width: 100%;
-    background: white;
-    border-bottom: 1px solid #eee;
+    padding: 0 24px;
 }
 
 .trust-container {
-    max-width: 1400px;
-    margin: auto;
-
+    max-width: 1100px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    padding: 10px 20px;
+    padding: 20px 32px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    gap: 8px;
 }
 
-/* LOGO */
+/* Each item */
+.trust-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+}
 
-.logo-area {
-    font-weight: 700;
-    font-size: 26px;
+/* Icon circle */
+.trust-icon-wrap {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border-radius: 12px;
+    background: #e8f6fd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.trust-icon {
+    font-size: 22px;
     color: #1aa4d4;
 }
 
-.logo-area span {
-    color: #2ec6ff;
+/* Text */
+.trust-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
 }
 
-.academy {
-    font-size: 12px;
+.trust-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+    line-height: 1.3;
+}
+
+.trust-desc {
+    font-size: 12.5px;
     color: #777;
-    margin-top: -5px;
-    letter-spacing: 2px;
+    margin: 0;
 }
 
-/* TRUST CARDS */
-
-.trust-items {
-    display: flex;
-    gap: 15px;
+/* Blue underline under RTO #45234 */
+.trust-underline {
+    width: 36px;
+    height: 3px;
+    background: #1aa4d4;
+    border-radius: 2px;
+    margin: 4px 0 2px;
 }
 
-.trust-card {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-
-    background: #f6f7fb;
-    padding: 0px 15px;
-    border-radius: 10px;
-
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+/* Vertical divider */
+.trust-divider {
+    width: 1px;
+    height: 48px;
+    background: #e5e7eb;
+    flex-shrink: 0;
 }
 
-.icon {
-    font-size: 20px;
-}
-
-.title-trust{
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.desc {
-    font-size: 13px;
-    color: #555;
-}
-
-.award-card {
-    font-size: larger;
-    padding: 5px;
-    border-radius: 10px;
-    margin: 0px 5px;
-}
-
-@media(max-width:1024px) {
-
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
     .trust-container {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-}
-
-@media(max-width:768px) {
-
-    .trust-items {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .trust-card {
-        width: 100%;
+        flex-wrap: wrap;
+        gap: 16px;
         justify-content: center;
     }
 
-    .logo-area {
-        font-size: 22px;
-        text-align: center;
+    .trust-divider {
+        display: none;
     }
 
+    .trust-item {
+        flex: 1 1 40%;
+    }
+}
+
+@media (max-width: 640px) {
+    .trust-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 16px 20px;
+        gap: 16px;
+    }
+
+    .trust-item {
+        flex: 1 1 100%;
+        width: 100%;
+    }
 }

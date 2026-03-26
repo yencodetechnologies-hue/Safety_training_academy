@@ -15,7 +15,7 @@ function CourseScheduleModal({ course, close }) {
         try {
 
             const res = await axios.get(
-                `https://safety-training-academy.onrender.com/api/schedules/course/${course._id}`
+                `https://safety-training-academy-1ws0.onrender.com/api/schedules/course/${course._id}`
             )
 
             setSchedules(res.data)
@@ -50,7 +50,7 @@ function CourseScheduleModal({ course, close }) {
         try {
 
             await axios.delete(
-                `https://safety-training-academy.onrender.com/api/schedules/session/${id}`
+                `https://safety-training-academy-1ws0.onrender.com/api/schedules/session/${id}`
             )
 
             fetchSchedules()
@@ -70,7 +70,7 @@ function CourseScheduleModal({ course, close }) {
         try {
 
             await axios.patch(
-                `https://safety-training-academy.onrender.com/api/schedules/session/${id}`
+                `https://safety-training-academy-1ws0.onrender.com/api/schedules/session/${id}`
             )
 
             fetchSchedules()
@@ -116,7 +116,7 @@ function CourseScheduleModal({ course, close }) {
                 }
 
                 await axios.post(
-                    "https://safety-training-academy.onrender.com/api/schedules/session",
+                    "https://safety-training-academy-1ws0.onrender.com/api/schedules/session",
                     payload
                 )
 

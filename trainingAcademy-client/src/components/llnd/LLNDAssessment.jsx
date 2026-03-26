@@ -1,4 +1,3 @@
-
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import Numeracy from "./Numeracy"
@@ -10,7 +9,7 @@ import LLNDAssessmentComplete from "../llnd/LLNDAssessmentComplete"
 
 const topics = ["Numeracy", "Literacy", "Language", "Digital"]
 
-function LLNDAssessment({ onComplete,userDetails }) {
+function LLNDAssessment({ onComplete, userDetails }) {
     const [attempt, setAttempt] = useState(1)
     const [topicIndex, setTopicIndex] = useState(0)
     const navigate = useNavigate()
@@ -40,33 +39,8 @@ function LLNDAssessment({ onComplete,userDetails }) {
     }
     const calculateResult = (answers) => {
 
-            if (attempt >= 4) {
-
-        const forcedResult = {
-            total: 100,
-            correct: 67,
-            percentage: 67,
-            status: "Passed",
-            sections: [
-                { name: "Numeracy", score: 67, status: "Passed" },
-                { name: "Language", score: 67, status: "Passed" },
-                { name: "Literacy", score: 67, status: "Passed" },
-                { name: "Digital Literacy", score: 67, status: "Passed" }
-            ],
-            name: userDetails?.name || "Student",
-            email: userDetails?.email || "",
-            phone: userDetails?.phone || "",
-            date: new Date().toLocaleDateString()
-        }
-
-        setResultData(forcedResult)
-        setIsCompleted(true)
-        return
-    }
-
         let total = 0
         let correct = 0
-
         let sectionResults = []
 
         // ---------------- NUMERACY ----------------
@@ -97,20 +71,19 @@ function LLNDAssessment({ onComplete,userDetails }) {
         sectionResults.push({
             name: "Numeracy",
             score: numPercent.toFixed(0),
-            status: numPercent >= 70 ? "Passed" : "Failed"
+            status: numPercent >= 67 ? "Passed" : "Failed"
         })
 
-        // ---------------- LANGUAGE ----------------
         // ---------------- LANGUAGE ----------------
         let langTotal = Object.keys(answers.language || {}).length
 
         const languageCorrect = {
-            "0-0": "2015",
+            "0-0": "May 2020",
             "0-1": "2",
-            "0-2": "Work",
-            "0-3": "Cleaner",
+            "0-2": "Skilled Migration Visa",
+            "0-3": "Computer Programmer",
             "0-4": "Evening",
-            "0-5": "TAFE"
+            "0-5": "Local TAFE"
         }
 
         let langCorrect = 0
@@ -129,7 +102,7 @@ function LLNDAssessment({ onComplete,userDetails }) {
         sectionResults.push({
             name: "Language",
             score: langPercent.toFixed(0),
-            status: langPercent >= 70 ? "Passed" : "Failed"
+            status: langPercent >= 67 ? "Passed" : "Failed"
         })
 
         // ---------------- LITERACY ----------------
@@ -153,7 +126,6 @@ function LLNDAssessment({ onComplete,userDetails }) {
             "5-0": "Follow all safety signs and instructions",
         }
 
-
         let litCorrect = 0
 
         Object.keys(literacyCorrect).forEach(key => {
@@ -170,10 +142,9 @@ function LLNDAssessment({ onComplete,userDetails }) {
         sectionResults.push({
             name: "Literacy",
             score: litPercent.toFixed(0),
-            status: litPercent >= 70 ? "Passed" : "Failed"
+            status: litPercent >= 67 ? "Passed" : "Failed"
         })
 
-        // ---------------- DIGITAL ----------------
         // ---------------- DIGITAL ----------------
         let digiTotal = 9
         let digiCorrect = 0
@@ -187,8 +158,8 @@ function LLNDAssessment({ onComplete,userDetails }) {
 
         Object.keys(correctFiles).forEach(key => {
             if ((answers.digital || {})[key] === correctFiles[key]) {
-    digiCorrect++
-}
+                digiCorrect++
+            }
         })
 
         // LABEL → 5
@@ -201,7 +172,7 @@ function LLNDAssessment({ onComplete,userDetails }) {
         }
 
         Object.keys(correctLabels).forEach(key => {
-            if ((answers.digital || {}) [key] === correctLabels[key]) {
+            if ((answers.digital || {})[key] === correctLabels[key]) {
                 digiCorrect++
             }
         })
@@ -219,17 +190,51 @@ function LLNDAssessment({ onComplete,userDetails }) {
         sectionResults.push({
             name: "Digital Literacy",
             score: digiPercent.toFixed(0),
-            status: digiPercent >= 70 ? "Passed" : "Failed"
+            status: digiPercent >= 67 ? "Passed" : "Failed"
         })
+
+        // ---------------- ATTEMPT >= 4 FORCE PASS ----------------
+        if (attempt >= 4) {
+            const updatedSections = sectionResults.map(sec => {
+                if (sec.status === "Failed") {
+                    return {
+                        ...sec,
+                        score: 67,
+                        status: "Passed"
+                    }
+                }
+                return sec
+            })
+
+            const newCorrect = updatedSections.reduce((acc, s) => acc + Number(s.score), 0)
+            const newTotal = updatedSections.length * 100
+            const newPercentage = ((newCorrect / newTotal) * 100).toFixed(0)
+
+            const forcedResult = {
+                total,
+                correct,
+                percentage: newPercentage,
+                status: "Passed",
+                sections: updatedSections,
+                name: userDetails?.name || "Student",
+                email: userDetails?.email || "",
+                phone: userDetails?.phone || "",
+                date: new Date().toLocaleDateString()
+            }
+
+            setResultData(forcedResult)
+            setIsCompleted(true)
+            return
+        }
 
         // ---------------- FINAL ----------------
         const percentage = ((correct / total) * 100).toFixed(2)
-
+        const allPassed = sectionResults.every(sec => Number(sec.score) >= 67)
         const result = {
             total,
             correct,
             percentage,
-            status: percentage >= 70 ? "Passed" : "Failed",
+            status: allPassed ? "Passed" : "Failed",
             sections: sectionResults,
             name: userDetails?.name || "Student",
             email: userDetails?.email || "",
@@ -259,39 +264,39 @@ function LLNDAssessment({ onComplete,userDetails }) {
             </div>
 
             {!isCompleted ? (
-    <>
-        {topicIndex === 0 && <Numeracy next={(data) => nextSection("numeracy", data)} />}
-        {topicIndex === 1 && <Literacy next={(data) => nextSection("literacy", data)} />}
-        {topicIndex === 2 && <Language next={(data) => nextSection("language", data)} />}
-        {topicIndex === 3 && <Digital next={(data) => nextSection("digital", data)} />}
-    </>
-) : (
-    resultData?.status === "Passed" ? (
-        <CourseResult
-            data={resultData}
-            onRetry={() => {
-                setTopicIndex(0)
-                setIsCompleted(false)
-            }}
-            onContinue={onComplete} 
-        />
-    ) : (
-        <LLNDAssessmentComplete
-            data={resultData}
-            onRetry={() => {
-                setTopicIndex(0)
-                setIsCompleted(false)
-                setAttempt(prev => prev + 1)
-                attempt={attempt}
-            }}
-        />
-    )
-)}
+                <>
+                    {topicIndex === 0 && <Numeracy next={(data) => nextSection("numeracy", data)} />}
+                    {topicIndex === 1 && <Literacy next={(data) => nextSection("literacy", data)} />}
+                    {topicIndex === 2 && <Language next={(data) => nextSection("language", data)} />}
+                    {topicIndex === 3 && <Digital next={(data) => nextSection("digital", data)} />}
+                </>
+            ) : (
+                resultData?.status === "Passed" ? (
+                    <CourseResult
+                        data={resultData}
+                        onRetry={() => {
+                            setTopicIndex(0)
+                            setIsCompleted(false)
+                        }}
+                        onContinue={onComplete}
+                    />
+                ) : (
+                    <LLNDAssessmentComplete
+                        attempt={attempt}
+                        data={resultData}
+                        onRetry={() => {
+                            setTopicIndex(0)
+                            setIsCompleted(false)
+                            setAttempt(prev => prev + 1)
+
+                        }}
+                    />
+                )
+            )}
 
         </div>
 
     )
-
 }
 
 export default LLNDAssessment

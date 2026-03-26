@@ -1,7 +1,8 @@
 import "../styles/PublicNavbar.css";
-import logo from "../assets/staLogo.png";
+import logo from "../assets/SafetyTrainingAcademylogo.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+
 function PublicNavbar({ courses = [] }) {
   const navigate = useNavigate()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -33,7 +34,7 @@ function PublicNavbar({ courses = [] }) {
             <li onClick={() => { navigate("/") }}>Home</li>
 
 
-            <li 
+            <li
               onClick={() => setShowDropdown(prev => !prev)}
               onMouseEnter={() => {
                 setShowDropdown(true);
@@ -101,7 +102,7 @@ function PublicNavbar({ courses = [] }) {
               onClick={() => { navigate("/") }}
               onMouseEnter={() => setShowResources(true)}
               onMouseLeave={() => setShowResources(false)}
-              style={{ position: "relative"}}
+              style={{ position: "relative" }}
             >
               Resources
               <i className="fa-solid fa-angle-down"></i>
@@ -130,27 +131,27 @@ function PublicNavbar({ courses = [] }) {
         <div className={`nav-buttons ${mobileMenuOpen ? 'mobile-open' : ''}`}>
 
 
-          <button className="combo-btn combo-btn-navbar"
+          <button className=""
 
           >
             Combo Courses
           </button>
 
-          <button className="book-btn" onClick={() => { navigate("/book-now") }}>
+          <button className="" onClick={() => { navigate("/book-now") }}>
             Book now
           </button>
 
-          <button className="pub-voc-btn" onClick={() => { navigate("/voc") }}>
+          {/* <button className="pub-voc-btn" onClick={() => { navigate("/voc") }}>
             VOC
-          </button>
+          </button> */}
 
-          <button className="login-btn">
+          <button className="">
             <Link className="login-link" to="/login">Login / Register</Link>
           </button>
 
-          <button className="phone-btn phone-btn-navbar">
-            📞 1300 976 097
-          </button>
+          {/* <button className="">
+            <i class="fa-solid fa-phone"></i>1300 976 097
+          </button> */}
 
         </div>
 

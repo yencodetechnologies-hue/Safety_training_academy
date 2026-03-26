@@ -2,6 +2,7 @@ import Navbar from "../components/landingPage/Navbar"
 import Sidebar from "../components/Sidebar"
 import AdminDashborad from "./AdminDashboard"
 import { Outlet } from "react-router-dom"
+import "../styles/PortalLayout.css"
 
 function PortalLayout({ user }) {
 

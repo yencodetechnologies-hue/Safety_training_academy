@@ -142,6 +142,8 @@
     box-sizing: border-box;
     font-family: inherit;
     cursor: pointer;
+     -webkit-appearance: none;
+    appearance: none;
 }
 
 .er-select:focus {

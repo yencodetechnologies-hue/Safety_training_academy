@@ -3,6 +3,7 @@ import CreateCourseModal from "../course/CreateCourseModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import ScheduleModal from "../ScheduleModal";
+import { useLocation } from "react-router-dom"
 
 function Courses() {
 
@@ -13,6 +14,10 @@ function Courses() {
     const [search, setSearch] = useState("");
     const [openSchedule, setOpenSchedule] = useState(false);
     const [selectedCourse, setSelectedCourse] = useState(null);
+    const location = useLocation()
+    const query = new URLSearchParams(location.search)
+    const pubsearch = query.get("search")
+    const categoryFromURL = query.get("category")
 
     useEffect(() => {
         fetchCourses();
@@ -20,7 +25,7 @@ function Courses() {
 
     const fetchCourses = async () => {
         try {
-            const res = await axios.get("https://safety-training-academy.onrender.com/api/courses");
+            const res = await axios.get("https://safety-training-academy-1ws0.onrender.com/api/courses");
             setCourses(res.data);
         } catch (error) {
             console.log(error);
@@ -29,11 +34,24 @@ function Courses() {
         }
     };
 
+    useEffect(() => {
+  if (categoryFromURL) {
+    const el = document.getElementById(categoryFromURL)
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+}, [categoryFromURL])
+
+    const pubfilteredCourses = courses.filter(c =>
+  c.title.toLowerCase().includes(search?.toLowerCase() || "")
+)
+
     const handleDelete = async (id) => {
         const confirmDelete = window.confirm("Are you sure you want to delete this course?");
         if (!confirmDelete) return;
         try {
-            await axios.delete(`https://safety-training-academy.onrender.com/api/courses/${id}`);
+            await axios.delete(`https://safety-training-academy-1ws0.onrender.com/api/courses/${id}`);
             fetchCourses();
         } catch (err) {
             console.log(err);
@@ -59,7 +77,10 @@ function Courses() {
                 </div>
                 <div className="course-management-div">
                     <p>
-                        <i class="fa-solid fa-tag"></i>Manage Categories
+                    <i class="fa-solid fa-circle-plus"></i> Create Company
+                    </p>
+                    <p>
+                        <i className="fa-solid fa-tag"></i>Manage Categories
                     </p>
                     <p>
                         ☰ Reorder Courses
@@ -103,7 +124,7 @@ function Courses() {
 
                     return (
                         <div key={index}>
-                            <p className="courses-heading">
+                            <p className="courses-heading" id={cat}>
                                 {cat}
                             </p>
 

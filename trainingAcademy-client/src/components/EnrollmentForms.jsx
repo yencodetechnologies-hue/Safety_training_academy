@@ -3,8 +3,6 @@ import "../styles/EnrollmentForms.css";
 import { useEffect } from "react";
 import axios from "axios";
 
-
-
 const ITEMS_PER_PAGE = 10;
 
 function StatusBadge({ status }) {
@@ -21,15 +19,342 @@ function StatusBadge({ status }) {
   );
 }
 
+/* ── MODAL ── */
+function EnrollmentModal({ form, onClose }) {
+  const [activeTab, setActiveTab] = useState("Applicant");
+  const tabs = ["Applicant", "USI", "Education", "Additional", "Declaration"];
 
+  if (!form) return null;
+
+  const p = form.raw?.personalDetails || {};
+  const enr = form.raw?.enrollment || {};
+  const usi = form.raw?.usiDetails || {};
+  const edu = form.raw?.educationDetails || {};
+  const add = form.raw?.additionalInfo || {};
+  const decl = form.raw?.declaration || {};
+  const addr = p.residentialAddress || {};
+  const emergency = p.emergencyContact || {};
+
+  const reviewedDate = form.raw?.updatedAt
+    ? new Date(form.raw.updatedAt).toLocaleDateString()
+    : new Date().toLocaleDateString();
+
+  const statusConfig = {
+    Approved: { bg: "#f0fdf4", border: "#bbf7d0", color: "#16a34a", icon: "✓" },
+    Pending:  { bg: "#fffbeb", border: "#fde68a", color: "#d97706", icon: "⏱" },
+    Rejected: { bg: "#fef2f2", border: "#fecaca", color: "#dc2626", icon: "✕" },
+  };
+  const sc = statusConfig[form.status] || statusConfig.Pending;
+
+  return (
+    <div className="modal-backdrop" onClick={onClose}>
+      <div className="modal-box" onClick={(e) => e.stopPropagation()}>
+
+        {/* Header */}
+        <div className="modal-header">
+          <div>
+            <h2 className="modal-title">Enrollment Form Details</h2>
+            <p className="modal-subtitle">Review the student's enrollment form submission</p>
+          </div>
+          <button className="modal-close" onClick={onClose}>✕</button>
+        </div>
+
+        {/* Status Bar */}
+        <div className="modal-status-bar" style={{ background: sc.bg, borderColor: sc.border }}>
+          <div className="modal-status-left">
+            <span className="modal-status-icon" style={{ color: sc.color }}>
+              {sc.icon === "✓" ? (
+                <svg width="18" height="18" viewBox="0 0 20 20" fill="none">
+                  <circle cx="10" cy="10" r="9" stroke={sc.color} strokeWidth="2"/>
+                  <path d="M6 10l3 3 5-5" stroke={sc.color} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              ) : sc.icon}
+            </span>
+            <div>
+              <p className="modal-status-text" style={{ color: sc.color }}>Status: {form.status}</p>
+              <p className="modal-status-date">Reviewed on {reviewedDate}</p>
+            </div>
+          </div>
+          <div className="modal-status-actions">
+            <button className="modal-action-btn" onClick={() => window.open(`/api/enrollment-form/${form.id}/pdf`, "_blank")}>
+              <i className="fa-regular fa-file"></i> View PDF
+            </button>
+            <button className="modal-action-btn" onClick={() => window.open(`/print.html?id=${form.id}`, "_blank")}>
+              <i className="fa-solid fa-print"></i> Print
+            </button>
+          </div>
+        </div>
+
+        {/* Tabs */}
+        <div className="modal-tabs">
+          {tabs.map((tab) => (
+            <button
+              key={tab}
+              className={`modal-tab ${activeTab === tab ? "active" : ""}`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
+
+        {/* Tab Content */}
+        <div className="modal-body">
+
+          {/* ── APPLICANT TAB ── */}
+          {activeTab === "Applicant" && (
+            <div className="modal-section-group">
+              <div className="modal-section">
+                <h4 className="modal-section-title">Personal Details</h4>
+                <div className="modal-grid-3">
+                  <div className="modal-field">
+                    <span className="field-label">Title</span>
+                    <span className="field-value">{p.title || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Full Name</span>
+                    <span className="field-value">{`${p.givenName || ""} ${p.surname || ""}`.trim() || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Preferred Name</span>
+                    <span className="field-value">{p.preferredName || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Date of Birth</span>
+                    <span className="field-value">{p.dateOfBirth ? new Date(p.dateOfBirth).toLocaleDateString() : "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Gender</span>
+                    <span className="field-value">{p.gender || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Email</span>
+                    <span className="field-value">{p.email || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Mobile</span>
+                    <span className="field-value">{p.mobilePhone || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Home Phone</span>
+                    <span className="field-value">{p.homePhone || "N/A"}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-section">
+                <h4 className="modal-section-title">Residential Address</h4>
+                <p className="field-value">
+                  {[addr.unit, addr.street, addr.suburb, addr.state, addr.postcode]
+                    .filter(Boolean).join(", ") || "N/A"}
+                </p>
+              </div>
+
+              <div className="modal-section">
+                <h4 className="modal-section-title">Emergency Contact</h4>
+                <div className="modal-grid-3">
+                  <div className="modal-field">
+                    <span className="field-label">Name</span>
+                    <span className="field-value">{emergency.name || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Relationship</span>
+                    <span className="field-value">{emergency.relationship || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Phone</span>
+                    <span className="field-value">{emergency.phone || "N/A"}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Photo and ID Card */}
+              <div className="modal-section">
+                <h4 className="modal-section-title">
+                  <i className="fa-regular fa-user" style={{ marginRight: 6 }}></i>
+                  Photo and ID Card
+                </h4>
+                {form.raw?.primaryPhotoId && (
+                  <div className="modal-photo-block">
+                    <div className="modal-photo-label-row">
+                      <span className="field-label">Primary Photo ID</span>
+                      <a href={form.raw.primaryPhotoId} target="_blank" rel="noreferrer" className="view-fullsize-link">
+                        <i className="fa-regular fa-eye"></i> View full size
+                      </a>
+                    </div>
+                    <img src={form.raw.primaryPhotoId} alt="Primary ID" className="modal-photo-img" />
+                  </div>
+                )}
+                {form.raw?.secondaryPhotoId && (
+                  <div className="modal-photo-block">
+                    <div className="modal-photo-label-row">
+                      <span className="field-label">Photo</span>
+                      <a href={form.raw.secondaryPhotoId} target="_blank" rel="noreferrer" className="view-fullsize-link">
+                        <i className="fa-regular fa-eye"></i> View full size
+                      </a>
+                    </div>
+                    <img src={form.raw.secondaryPhotoId} alt="Secondary ID" className="modal-photo-img" />
+                  </div>
+                )}
+                {!form.raw?.primaryPhotoId && !form.raw?.secondaryPhotoId && (
+                  <p className="field-value">No</p>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* ── USI TAB ── */}
+          {activeTab === "USI" && (
+            <div className="modal-section-group">
+              <div className="modal-section">
+                <h4 className="modal-section-title">USI Details</h4>
+                <div className="modal-grid-3">
+                  <div className="modal-field">
+                    <span className="field-label">USI</span>
+                    <span className="field-value">{usi.usiNumber || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Apply through STA</span>
+                    <span className="field-value">{usi.applyThroughSTA ? "Yes" : "No"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">USI Access Permission</span>
+                    <span className="field-value">{usi.accessPermission ? "Yes" : "No"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Town/City of Birth</span>
+                    <span className="field-value">{usi.townOfBirth || "N/A"}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── EDUCATION TAB ── */}
+          {activeTab === "Education" && (
+            <div className="modal-section-group">
+              <div className="modal-section">
+                <h4 className="modal-section-title">Prior Education</h4>
+                <div className="modal-grid-3">
+                  <div className="modal-field">
+                    <span className="field-label">School Level</span>
+                    <span className="field-value">{edu.schoolLevel || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Year Completed</span>
+                    <span className="field-value">{edu.yearCompleted || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">School Name</span>
+                    <span className="field-value">{edu.schoolName || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">School Location</span>
+                    <span className="field-value">{edu.schoolLocation || "N/A"}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="modal-section">
+                <h4 className="modal-section-title">Employment</h4>
+                <div className="modal-grid-3">
+                  <div className="modal-field">
+                    <span className="field-label">Employment Status</span>
+                    <span className="field-value">{edu.employmentStatus || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Employer</span>
+                    <span className="field-value">{edu.employer || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Training Reason</span>
+                    <span className="field-value">{edu.trainingReason || "N/A"}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── ADDITIONAL TAB ── */}
+          {activeTab === "Additional" && (
+            <div className="modal-section-group">
+              <div className="modal-section">
+                <h4 className="modal-section-title">Additional Information</h4>
+                <div className="modal-grid-3">
+                  <div className="modal-field">
+                    <span className="field-label">Country of Birth</span>
+                    <span className="field-value">{add.countryOfBirth || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Speaks Other Language</span>
+                    <span className="field-value">{add.speaksOtherLanguage ? "Yes" : "No"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Indigenous Status</span>
+                    <span className="field-value">{add.indigenousStatus || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Has Disability</span>
+                    <span className="field-value">{add.hasDisability ? "Yes" : "No"}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ── DECLARATION TAB ── */}
+          {activeTab === "Declaration" && (
+            <div className="modal-section-group">
+              <div className="modal-section">
+                <h4 className="modal-section-title">Declaration & Signature</h4>
+                <div className="modal-grid-3">
+                  <div className="modal-field">
+                    <span className="field-label">Privacy Notice Accepted</span>
+                    <span className="field-value">{decl.privacyAccepted ? "Yes" : "No"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Terms Accepted</span>
+                    <span className="field-value">{decl.termsAccepted ? "Yes" : "No"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Declaration Name</span>
+                    <span className="field-value">{decl.declarationName || "N/A"}</span>
+                  </div>
+                  <div className="modal-field">
+                    <span className="field-label">Declaration Date</span>
+                    <span className="field-value">
+                      {decl.declarationDate
+                        ? new Date(decl.declarationDate).toLocaleDateString()
+                        : "N/A"}
+                    </span>
+                  </div>
+                </div>
+
+                {decl.signature && (
+                  <div className="modal-field" style={{ marginTop: 16 }}>
+                    <span className="field-label">Signature</span>
+                    <div className="modal-signature-box">
+                      <img src={decl.signature} alt="Signature" className="modal-signature-img" />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── MAIN COMPONENT ── */
 function EnrollmentForms() {
-
-  
   const [data, setData] = useState([]);
-
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("All Status");
   const [currentPage, setCurrentPage] = useState(1);
+  const [selectedForm, setSelectedForm] = useState(null);
 
   const filtered = data.filter((row) => {
     const matchSearch =
@@ -50,11 +375,11 @@ function EnrollmentForms() {
   const pending = data.filter((r) => r.status === "Pending").length;
   const approved = data.filter((r) => r.status === "Approved").length;
   const rejected = data.filter((r) => r.status === "Rejected").length;
-    const fetchForms = async () => {
-    try {
-      const res = await axios.get("https://safety-training-academy.onrender.com/api/enrollment-form");
 
-      const formatted = res.data.map((item, index) => ({
+  const fetchForms = async () => {
+    try {
+      const res = await axios.get("https://safety-training-academy-1ws0.onrender.com/api/enrollment-form");
+      const formatted = res.data.map((item) => ({
         id: item._id,
         date: new Date(item.createdAt).toLocaleDateString(),
         name: `${item.personalDetails?.givenName || ""} ${item.personalDetails?.surname || ""}`,
@@ -64,23 +389,24 @@ function EnrollmentForms() {
         bookingDate: item.enrollment?.preferredStartDate
           ? new Date(item.enrollment.preferredStartDate).toLocaleDateString()
           : "N/A",
-        type: "Individual", // later dynamic pannalaam
+        type: "Individual",
         status: item.status,
         enrollments: item.enrollment?.units?.length || 1,
+        raw: item, // ✅ full raw object for modal
       }));
-
       setData(formatted);
     } catch (err) {
       console.error(err);
     }
   };
-    useEffect(() => {
+
+  useEffect(() => {
     fetchForms();
   }, []);
 
   const handlePrint = (id) => {
-  window.open(`/print.html?id=${id}`, "_blank");
-};
+    window.open(`/print.html?id=${id}`, "_blank");
+  };
 
   return (
     <div className="ef-container">
@@ -124,7 +450,7 @@ function EnrollmentForms() {
       {/* Filters */}
       <div className="ef-filters">
         <div className="search-wrapper">
-          <span className="search-icon">🔍</span>
+          <span className="search-icon"><i class="fa-solid fa-magnifying-glass"></i></span>
           <input
             className="ef-search"
             type="text"
@@ -191,9 +517,24 @@ function EnrollmentForms() {
                   </td>
                   <td>
                     <div className="action-buttons">
-                      <button className="action-btn" title="View"><i className="fa-regular fa-eye"></i></button>
-                      <button className="action-btn icon-btn" title="Document"><i className="fa-regular fa-file"></i></button>
-                      <button className="action-btn icon-btn" onClick={() => handlePrint(row.id)} title="Print"><i className="fa-solid fa-print"></i></button>
+                      {/* ✅ Eye button opens modal */}
+                      <button
+                        className="action-btn"
+                        title="View"
+                        onClick={() => setSelectedForm(row)}
+                      >
+                        <i className="fa-regular fa-eye"></i> 
+                      </button>
+                      <button className="action-btn icon-btn" title="Document">
+                        <i className="fa-regular fa-file"></i>
+                      </button>
+                      <button
+                        className="action-btn icon-btn"
+                        onClick={() => handlePrint(row.id)}
+                        title="Print"
+                      >
+                        <i className="fa-solid fa-print"></i>
+                      </button>
                     </div>
                   </td>
                 </tr>
@@ -231,6 +572,14 @@ function EnrollmentForms() {
           </div>
         </div>
       </div>
+
+      {/* ✅ Modal */}
+      {selectedForm && (
+        <EnrollmentModal
+          form={selectedForm}
+          onClose={() => setSelectedForm(null)}
+        />
+      )}
     </div>
   );
 }

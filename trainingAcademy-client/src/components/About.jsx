@@ -46,7 +46,6 @@ function AboutPage() {
     return (
         <div className="ab-page">
             <TopNav />
-            <TrustBar />
             <PublicNavbar />
 
             {/* ── HERO ── */}

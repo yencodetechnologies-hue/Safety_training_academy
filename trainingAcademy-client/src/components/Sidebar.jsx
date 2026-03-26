@@ -28,6 +28,7 @@ function Sidebar({ user }) {
       { name: "Dashboard", path: "/admin", icon: "fa-solid fa-table-columns" },
       { name: "Courses", path: "/admin/courses", icon: "fa-solid fa-book" },
       { name: "Students", path: "/admin/students", icon: "fa-solid fa-users" },
+      { name: "Companies", path: "/admin/companies", icon: "fa-solid fa-users" },
       { name: "Schedule", path: "/admin/schedule", icon: "fa-solid fa-calendar" },
       { name: "Teachers", path: "/admin/teachers", icon: "fa-solid fa-chalkboard-user" },
       { name: "LLND Results", path: "/admin/llnd-results", icon: "fa-solid fa-clipboard-check" },

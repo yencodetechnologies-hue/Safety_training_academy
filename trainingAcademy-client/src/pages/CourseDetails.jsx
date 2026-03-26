@@ -21,12 +21,12 @@ function CourseDetails() {
 
     useEffect(() => {
 
-        axios.get(`https://safety-training-academy.onrender.com/api/courses/${courseId}`)
+        axios.get(`https://safety-training-academy-1ws0.onrender.com/api/courses/${courseId}`)
             .then(res => {
                 setCourse(res.data)
             })
 
-        axios.get(`https://safety-training-academy.onrender.com/api/courses`)
+        axios.get(`https://safety-training-academy-1ws0.onrender.com/api/courses`)
             .then(res => {
                 setCourses(res.data)
             })
@@ -40,7 +40,6 @@ function CourseDetails() {
         <div className="course-details-public">
 
             <TopNav />
-            <TrustBar />
             <PublicNavbar courses={courses}/>
             <CourseDetailsHero course={course} />  
             <div className="course-details-content">

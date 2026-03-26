@@ -1,7 +1,7 @@
 import "../../styles/LLNDComplete.css"
 import { FaCheckCircle } from "react-icons/fa"
 
-function LLNDAssessmentComplete({ data, onRetry }) {
+function LLNDAssessmentComplete({ data, onRetry,attempt }) {
 
    const safeData = data || {
     total: 0,
@@ -10,7 +10,7 @@ function LLNDAssessmentComplete({ data, onRetry }) {
     sections: []
   }
 
-  const isPassed = safeData.percentage >= 70
+  const isPassed = safeData.percentage >= 67
 
   return (
     <div className="llnd-complete-card">

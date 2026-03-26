@@ -1,108 +1,115 @@
-.public-navbar{
-  width:100%;
-  background:#0f1e3d;
-  color:white;
-  position:sticky;
-  top:0;
-  z-index:100;
+.public-navbar {
+  width: 100%;
+  color: #0f1e3d;
+  background: white;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-.navbar-container{
-  max-width:1400px;
-  margin:auto;
-  padding:23px 20px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
+.navbar-container {
+  max-width: 1400px;
+  margin: auto;
+  padding: 23px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.login-link{
-  color:white;
-  text-decoration:none;
-} 
+
+.login-link {
+  color: white;
+  text-decoration: none;
+}
+
 /* LOGO */
 .fa-angle-down {
   position: relative;
   top: 2px;
 }
-.navbar-logo{
-  font-size:22px;
-  font-weight:700;
-  letter-spacing:1px;
+
+.navbar-logo {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 1px;
   display: flex;
   align-items: center;
 }
-.navbar-logo > img{
-  height: 45px;
+
+.navbar-logo > img {
+  height: 35px;
 }
 
-.logo span{
-  color:#24d2ff;
+.logo span {
+  color: #24d2ff;
 }
 
 /* NAV LINKS */
-
-.nav-links{
-  display:flex;
-  list-style:none;
-  gap:30px;
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 30px;
 }
 
-.nav-links li{
-  cursor:pointer;
-  font-size:15px;
-  font-weight:500;
+.nav-links li {
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 600;
 }
 
-.nav-links li:hover{
-  color:#24d2ff;
+.nav-links li:hover {
+  color: #24d2ff;
 }
 
-/* BUTTONS */
-
-.nav-buttons{
-  display:flex;
-  gap:10px;
-  align-items:center;
+/* ===== BUTTONS ===== */
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
 }
 
-.nav-buttons button{
-  padding:8px 16px;
-  border-radius:25px;
-  cursor:pointer;
-  font-size:14px;
+/* Base style for ALL nav buttons */
+.nav-buttons button {
+      display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 13px 26px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.3px;
+    transition: background 0.2s, transform 0.15s;
 }
 
-/* BUTTON STYLES */
-
-.combo-btn{
-  background:linear-gradient(90deg,#00d2ff,#3a7bd5);
-  color:white;
+.combo-btn {
+  background: linear-gradient(90deg, #00d2ff, #3a7bd5);
+  color: white;
 }
 
-.book-btn{
-  background:#1bc6e5;
-  color:white;
+.book-btn {
+  background: #1bc6e5;
+  color: white;
 }
 
-.pub-voc-btn{
-  border:1px solid #24d2ff !important;
-  background:#19354a;
-  color:#24d2ff;
-  width: auto;
-  padding:14px;
-  border-radius:30px;
-  font-weight:600;
+.pub-voc-btn {
+  border: 2px solid #24d2ff !important;
+  background: #19354a;
+  color: #24d2ff;
+  font-weight: 600;
 }
 
-.login-btn{
-  background:transparent;
-  border:1px solid white;
-  color:white;
+.login-btn {
+  background: transparent;
+  border: 1px solid #0f1e3d !important;
+  background: linear-gradient(90deg, #00d2ff, #3a7bd5);
 }
 
-.phone-btn{
-  background:#1b2c4f;
-  color:white;
+.phone-btn {
+  background: #1b2c4f;
+  color: white;
 }
 
 /* ================= RESOURCES DROPDOWN ================= */
@@ -125,7 +132,7 @@
 }
 
 .resources-dropdown div:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* ================= COURSES DROPDOWN ================= */
@@ -141,7 +148,7 @@
   overflow: hidden;
   z-index: 999;
   margin-top: 10px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .courses-dropdown-left {
@@ -171,11 +178,7 @@
   overflow-y: auto;
   max-height: 400px;
 }
-.mobile-menu {
-  display: none;
-  font-size: 24px;
-  cursor: pointer;
-}
+
 .courses-dropdown-right .course-item {
   padding: 8px 10px;
   cursor: pointer;
@@ -190,46 +193,104 @@
   color: #00bcd4;
 }
 
-/* MOBILE MENU */
-
-.mobile-menu{
-  display:none;
-  font-size:24px;
-  cursor:pointer;
+/* ================= MOBILE MENU ================= */
+.mobile-menu {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
 }
 
-@media(max-width:1024px){
-  .nav-links{
-    display:none;
+/* ================= RESPONSIVE ================= */
+@media (max-width: 1024px) {
+  .nav-links {
+    display: none;
   }
-  .nav-buttons{
-    display:none;
+
+  .nav-buttons {
+    display: none;
   }
-  .mobile-menu{
-    display:block;
+
+  .mobile-menu {
+    display: block;
+  }
+
+  .nav-links.mobile-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 20px;
+    margin: 30px;
+    border-radius: 10px 0px 0px 0px;
+    z-index: 200;
+    gap: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-buttons.mobile-open {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 255px;
+    left: 0;
+    width: 100%;
+    background: white;
+    padding: 16px 20px;
+    margin: 30px;
+    border-radius: 0px 0px 0px 10px;
+    z-index: 200;
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-buttons.mobile-open button {
+    width: 100%;
   }
 }
 
-@media(max-width:768px){
-  .navbar-container{
-    padding:12px 15px;
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 12px 15px;
   }
-  .logo{
-    font-size:18px;
+
+  .logo {
+    font-size: 18px;
   }
-  .mobile-menu{
-    font-size:26px;
+    .nav-links.mobile-open {
+      top: 40px;
+      margin:0px;
+       width: 95%;
+    }
+    .nav-buttons.mobile-open{
+      top:225px;
+       margin:0px;
+       width: 95%;
+    }
+  .mobile-menu {
+    font-size: 26px;
   }
+    .nav-buttons.mobile-open button {
+    width: 70%;
+  }
+    .nav-links li {
+      text-align: center;
+    }
 }
 
-@media(min-width:1400px){
-  .navbar-container{
-    max-width:1500px;
+@media (min-width: 1400px) {
+  .navbar-container {
+    max-width: 1500px;
   }
-  .nav-links li{
-    font-size:16px;
+
+  .nav-links li {
+    font-size: 16px;
   }
-  .nav-buttons button{
-    padding:10px 18px;
+
+  .nav-buttons button {
+    height: 44px;
+    padding: 0 22px;
   }
 }

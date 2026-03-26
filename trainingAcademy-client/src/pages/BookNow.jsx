@@ -121,12 +121,16 @@ function BookNow() {
                     {step > 1 && step !== 3 && (
                         <button
                             className="prev-btn"
+                            disabled={step === 4 && enrollSection === 1}
                             onClick={() => {
-                                if (step === 4 && enrollSection > 1) {
-                                    setEnrollSection(prev => prev - 1);
-                                } else {
-                                    setStep(prev => prev - 1);
+                                if (step === 4) {
+                                    if (enrollSection > 1) {
+                                        setEnrollSection(prev => prev - 1);
+                                    }
+                                    return; 
                                 }
+
+                                setStep(prev => prev - 1);
                             }}
                         >
                             Previous

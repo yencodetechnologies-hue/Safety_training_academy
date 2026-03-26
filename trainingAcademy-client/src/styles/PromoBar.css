@@ -1,18 +1,21 @@
-.advertisement-bar{
+.promo-bar{
   width:100%;
   background:#ffffff;
   padding:40px 20px;
 }
 
-.advertisement-container{
+.promo-container-main{
   max-width:1100px;
   margin:auto;
   text-align:center;
 }
+.promo-container-main:first-child{
+  margin-top: 2%;
+}
 
 /* RED TOP TEXT */
 
-.ad-highlight{
+.promo-highlight{
   color:#e11d1d;
   font-weight:700;
   font-size:20px;
@@ -21,7 +24,7 @@
 
 /* MAIN TITLE */
 
-.ad-title{
+.promo-title-promo{
   font-size:34px;
   font-weight:700;
   color:#1e293b;
@@ -30,42 +33,42 @@
 
 /* LINKS TEXT */
 
-.ad-links{
+.promo-links-promo{
   font-size:18px;
   color:#333;
 }
 
-.ad-links span{
+.promo-links-promo{
   color:#2563eb;
   font-weight:600;
 }
 @media(max-width:1024px){
 
-.ad-title{
+.promo-title-promo{
   font-size:28px;
 }
 
-.ad-links{
+.promo-links-promo{
   font-size:16px;
 }
 
 }
 @media(max-width:768px){
 
-.advertisement-bar{
+.promo-bar{
   padding:30px 15px;
 }
 
-.ad-highlight{
+.promo-highlight{
   font-size:16px;
 }
 
-.ad-title{
+.promo-title-promo{
   font-size:22px;
   line-height:1.3;
 }
 
-.ad-links{
+.promo-links-promo{
   font-size:14px;
   line-height:1.5;
 }
@@ -73,11 +76,11 @@
 }
 @media(min-width:1400px){
 
-.ad-title{
+.promo-title-promo{
   font-size:40px;
 }
 
-.ad-links{
+.promo-links-promo{
   font-size:20px;
 }
 

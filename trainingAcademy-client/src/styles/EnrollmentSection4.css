@@ -115,6 +115,8 @@
     font-family: inherit;
     cursor: pointer;
     outline: none;
+     -webkit-appearance: none;
+    appearance: none;
 }
 
 .s4-select:focus {

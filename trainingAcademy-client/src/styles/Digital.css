@@ -27,7 +27,7 @@
 .digital-main {
   display: flex;
   justify-content: center;
-  align-items: flex-start; /* 🔥 TOP ALIGN */
+  align-items: flex-start;
   gap: 80px;
 }
 
@@ -51,6 +51,10 @@
   cursor: grab;
   font-size: 14px;
   transition: 0.2s;
+  /* prevent text selection while dragging on mobile */
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: none;
 }
 
 .digital-logo {
@@ -86,16 +90,27 @@
   gap: 15px;
 }
 
-/* DROP ZONE */
+/* DROP ZONE — default */
 .drop-zone {
   border: 2px dashed #cbd5e1;
   border-radius: 12px;
-  padding: 10px;
+  padding: 9px;
   background: #f8fafc;
   font-size: 14px;
-  width: 180px;
+  width: 160px;
   text-align: center;
+  transition: background 0.2s, border-color 0.2s, color 0.2s;
 }
+
+/* DROP ZONE — filled / green */
+.drop-zone.filled {
+  background: #d1fae5;
+  border-color: #10b981;
+  border-style: solid;
+  color: #065f46;
+  font-weight: 600;
+}
+
 /* ONLY FOR Q1 OVERLAY */
 .overlay-drop {
   position: absolute;
@@ -104,6 +119,11 @@
 .drop-zone:hover {
   border-color: #7c3aed;
   background: #f3f4f6;
+}
+
+.drop-zone.filled:hover {
+  border-color: #059669;
+  background: #a7f3d0;
 }
 
 /* SUCCESS TEXT */
@@ -177,6 +197,7 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
 .digital-image-wrapper {
   position: relative;
   width: 380px;
@@ -192,12 +213,14 @@
 /* overlay positions */
 .checklist {
   top: 75px;
-  left: 110px;
+  left: 175px;
 }
+
 .draggable {
   border-radius: 12px;
   text-align: center;
 }
+
 .reset-btn {
   margin: 35px auto;
   display: block;
@@ -217,10 +240,9 @@
   height: 60px;
 }
 
-
 .images {
   top: 130px;
-  left: 113px;
+  left: 173px;
   min-width: 150px;
 }
 
@@ -231,13 +253,13 @@
   align-items: center;
   gap: 10px;
 }
+
 .device img {
   width: 90px;
   height: auto;
 }
-/* ------------------- */
-/* 📱 MOBILE */
-/* ------------------- */
+
+
 @media (max-width: 600px) {
 
   .digital-main {
@@ -271,9 +293,7 @@
   }
 }
 
-/* ------------------- */
-/* 📱 TABLET */
-/* ------------------- */
+
 @media (min-width: 601px) and (max-width: 900px) {
 
   .digital-main {
@@ -285,20 +305,10 @@
   }
 }
 
-/* ------------------- */
-/* 💻 LARGE SCREENS */
-/* ------------------- */
 @media (min-width: 1200px) {
 
   .digital-container {
     padding: 30px;
   }
 
-  .digital-instruction {
-    font-size: 15px;
-  }
-
-  .drop-zone {
-    font-size: 15px;
-  }
 }
