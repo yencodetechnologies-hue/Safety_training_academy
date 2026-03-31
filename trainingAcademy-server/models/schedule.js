@@ -13,7 +13,12 @@ const sessionSchema = new mongoose.Schema({
 
  location:String,
 
- maxCapacity:Number,
+  maxCapacity:Number,
+
+  availableSlots:{
+    type:Number,
+    required:true
+  },
 
  enrolledStudents:{
   type:Number,

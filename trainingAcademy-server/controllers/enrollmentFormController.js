@@ -1,4 +1,5 @@
 const EnrollmentForm = require("../models/EnrollmentForm");
+const EnrollmentFlow = require("../models/EnrollmentFlows");
 
 const createEnrollmentForm = async (req, res) => {
   try {
@@ -91,6 +92,14 @@ const createEnrollmentForm = async (req, res) => {
     });
 
     await form.save();
+
+        await EnrollmentFlow.findOneAndUpdate(
+      { studentId: data.userId, status: "active" }, // find current flow
+      {
+        enrollmentFormId: form._id,
+        currentStep: 4
+      }
+    );
 
     res.status(201).json({
       message: "Enrollment form submitted successfully"

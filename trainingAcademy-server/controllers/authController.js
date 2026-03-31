@@ -1,4 +1,5 @@
 const User = require("../models/User");
+const Company = require ("../models/Company")
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -39,11 +40,15 @@ exports.login = async (req,res)=>{
  try{
 
  const {email,password} = req.body;
+let user = await User.findOne({ email });
 
- const user = await User.findOne({email});
+if (!user) {
+  user = await Company.findOne({ email }); // 👈 second table check
+}
 
- if(!user){
-   return res.status(400).json({message:"Invalid Credentials"});
+if (!user) {
+  return res.status(400).json({ message: "Invalid Credentials" });
+
  }
 
  const isMatch = await bcrypt.compare(password,user.password);
@@ -62,7 +67,7 @@ exports.login = async (req,res)=>{
    token,
    user:{
      id:user._id,
-     name:user.name,
+      name: user.name || user.companyName || user.email,
      email:user.email,
      role:user.role,
    }

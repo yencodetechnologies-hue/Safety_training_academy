@@ -77,6 +77,8 @@ exports.createCompany = async (req, res) => {
       email: email.toLowerCase().trim(),
       password: hashedPassword,
       mobileNumber: mobileNumber || null,
+      status: "Active",
+      role:"Company"
     });
 
     const { password: _, ...companyData } = company.toObject();
