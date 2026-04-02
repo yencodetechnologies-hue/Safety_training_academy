@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const Company = require ("../models/Company")
+const StudentMain = require("../models/student_main");
+const EnrollmentFlows = require("../models/EnrollmentFlows");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -15,8 +17,7 @@ exports.register = async (req,res)=>{
  }
 
  const salt = await bcrypt.genSalt(10);
- const hashedPassword = await bcrypt.hash(password,salt);
-
+const hashedPassword = await bcrypt.hash(password || "123456", salt);
  const user = await User.create({
    name,
    email,
@@ -36,44 +37,71 @@ message:"Register success",
 };
 
 
-exports.login = async (req,res)=>{
- try{
+exports.login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
- const {email,password} = req.body;
-let user = await User.findOne({ email });
+    // 🔥 FIRST check StudentMain
+    let student = await StudentMain.findOne({ email });
 
-if (!user) {
-  user = await Company.findOne({ email }); // 👈 second table check
-}
+    if (student) {
+      const isMatch = await bcrypt.compare(password, student.password);
 
-if (!user) {
-  return res.status(400).json({ message: "Invalid Credentials" });
+      if (!isMatch) {
+        return res.status(400).json({ message: "Invalid Credentials" });
+      }
 
- }
+      const token = jwt.sign(
+        { id: student._id, role: "Student" },
+        process.env.JWT_SECRET,
+        { expiresIn: "1d" }
+      );
 
- const isMatch = await bcrypt.compare(password,user.password);
+      return res.json({
+        token,
+        user: {
+          id: student._id,   // 🔥 IMPORTANT
+          name: student.name,
+          email: student.email,
+          role: "Student"
+        }
+      });
+    }
 
- if(!isMatch){
-   return res.status(400).json({message:"Invalid Credentials"});
- }
+    // 🔥 fallback → User
+    let user = await User.findOne({ email });
 
- const token = jwt.sign(
-   {id:user._id,role: user.role},
-   process.env.JWT_SECRET,
-   {expiresIn:"1d"}
- );
+    if (!user) {
+      user = await Company.findOne({ email });
+    }
 
- res.json({
-   token,
-   user:{
-     id:user._id,
-      name: user.name || user.companyName || user.email,
-     email:user.email,
-     role:user.role,
-   }
- });
+    if (!user) {
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
 
- }catch(err){
-   res.status(500).json({message:"Server Error"});
- }
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: "Invalid Credentials" });
+    }
+
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        name: user.name || user.companyName || user.email,
+        email: user.email,
+        role: user.role
+      }
+    });
+
+  } catch (err) {
+    res.status(500).json({ message: "Server Error" });
+  }
 };

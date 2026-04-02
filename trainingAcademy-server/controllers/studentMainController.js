@@ -1,17 +1,28 @@
 const StudentMain = require("../models/student_main");
 const EnrollmentFlow = require("../models/EnrollmentFlows");
-// ✅ CREATE (Step 2)
+const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs"); // 🔥 ADD THIS
+
 exports.createStudent = async (req, res) => {
   try {
     const data = req.body;
 
     let student = await StudentMain.findOne({ email: data.email });
 
+    const rawPassword =
+      data.password && data.password.trim() !== ""
+        ? data.password
+        : "123456";
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(rawPassword, salt);
+
     if (!student) {
       student = new StudentMain({
         name: data.name,
         email: data.email,
         phone: data.phone,
+        password: hashedPassword, // ✅ FIXED
         courses: [
           {
             courseId: data.courseId,
@@ -43,7 +54,6 @@ exports.createStudent = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
-const mongoose = require("mongoose");
 
 exports.updateStudentCourse = async (req, res) => {
   try {

@@ -19,8 +19,12 @@ const studentMainSchema = new mongoose.Schema(
 
     enrollmentType: {
       type: String,
-      enum: ["individual", "company"],
+      enum: ["individual", "company","agent"],
       default: "individual"
+    },
+    password: {
+      type: String,
+      required: true,
     },
 
     courses: [

@@ -6,6 +6,7 @@ const companyRoutes = require("./routes/companyRoutes");
 const companyEnrollRoutes = require("./routes/companyEnrollRoutes");
 const studentRoutes = require("./routes/studentMainRoutes");
 const enrollmentRoutes = require("./routes/enrollmentFlowRoutes");
+const studentDashboardRoutes = require("./routes/studentDashboardRoutes");
 
 
 dotenv.config();
@@ -39,6 +40,7 @@ app.use("/api/llnd", require("./routes/llndRoutes"));
 
 app.use("/api/flow", enrollmentRoutes);
 app.use("/api/students", studentRoutes);
+app.use("/api/student", studentDashboardRoutes);
 
 const PORT = process.env.PORT || 8000;
 
