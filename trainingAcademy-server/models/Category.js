@@ -1,24 +1,27 @@
-const mongoose = require ("mongoose")
+const mongoose = require("mongoose");
 
-const categorySchema = new mongoose.Schema({
-  name: {
-    type: String,
+const categorySchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    courseCount: {
+      type: Number,
+      default: 0,
+    },
+    active: {
+      type: Boolean,
+      default: true,
+    },
+    order: {
+      type: Number,
+      default: 0, // drag reorder ku
+    },
   },
+  { timestamps: true }
+);
 
-  order: {
-    type: Number,
-    default: 0
-  },
-
-  status: {
-    type: String,
-    enum: ["Active","Inactive"],
-    default: "Active"
-  }
-
-},{timestamps:true})
-
-module.exports = mongoose.model("Category",categorySchema)  
-
-
-// 
+module.exports = mongoose.model("Category", categorySchema);

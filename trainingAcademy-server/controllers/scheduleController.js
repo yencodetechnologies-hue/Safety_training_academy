@@ -14,31 +14,32 @@ const createSchedule = async (req,res) => {
  }
 }
 
-const addSession = async (req,res)=>{
- try{
-  const {course,date,session} = req.body
-  let schedule = await Schedule.findOne({
-   course,
-   date
-  })
-  if(!schedule){
-   schedule = new Schedule({
-    course,
-    date,
-    sessions:[session]
-   })
-  }else{
-   schedule.sessions.push(session)
+const addSession = async (req, res) => {
+  try {
+    const { course, date, session } = req.body;
+
+    session.availableSlots = session.maxCapacity;
+
+    let schedule = await Schedule.findOne({ course, date });
+
+    if (!schedule) {
+      schedule = new Schedule({
+        course,
+        date,
+        sessions: [session],
+      });
+    } else {
+      schedule.sessions.push(session);
+    }
+
+    await schedule.save();
+    res.json(schedule);
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
   }
-  await schedule.save()
-  res.json(schedule)
- }
- catch(err){
-  res.status(500).json({
-   message:err.message
-  })
- }
-}
+};
 
 const toggleSession = async(req,res)=>{
  const schedule = await Schedule.findOne({
