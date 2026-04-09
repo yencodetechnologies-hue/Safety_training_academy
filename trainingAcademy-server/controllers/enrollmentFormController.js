@@ -110,9 +110,13 @@ const createEnrollmentForm = async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 };
+
 const getEnrollmentForms = async (req, res) => {
   try {
-    const forms = await EnrollmentForm.find().sort({ createdAt: -1 });
+    const { studentId } = req.query; // ✅ query param எடுக்கிறோம்
+
+    const query = studentId ? { studentId } : {};
+    const forms = await EnrollmentForm.find(query).sort({ createdAt: -1 });
 
     res.status(200).json(forms);
   } catch (err) {

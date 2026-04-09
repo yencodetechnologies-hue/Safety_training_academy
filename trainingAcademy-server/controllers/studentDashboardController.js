@@ -21,12 +21,31 @@ exports.getStudentDashboard = async (req, res) => {
       return res.status(404).json({ message: "No enrollment data found" });
     }
 
-    const response = {
-      studentName: flow.studentId?.name,
-      assessmentScore: flow.llnd?.score || 0,
-      assessmentPassed: flow.llnd?.status === "completed",
-      enrollmentFormApproved: flow.currentStep >= 3
-    };
+    const enrollment = await EnrollmentFlow.findOne({ studentId });
+
+let paymentVerified = false;
+
+if (enrollment) {
+  enrollment.items.forEach(item => {
+    if (item.payment?.status === "success") {
+      paymentVerified = true;
+    }
+  });
+}
+
+  const response = {
+  studentName: flow.studentId?.name,
+  assessmentScore: flow.llnd?.score || 0,
+  paymentVerified,
+  assessmentPassed: flow.llnd?.status === "completed",
+  enrollmentFormApproved: flow.currentStep >= 4,
+  enrolledCourses: flow.items?.map(item => ({  // ✅ சேர்க்கணும்
+    courseId: item.course?.courseId,
+    courseName: item.course?.courseName,
+    price: item.course?.price,
+    paymentStatus: item.payment?.status || "Pending"
+  })) || []
+};
 
     res.json(response);
 

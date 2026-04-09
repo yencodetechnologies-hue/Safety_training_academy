@@ -215,3 +215,104 @@ exports.getLLNDResults = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+exports.getAllPayments = async (req, res) => {
+  try {
+    const enrollments = await EnrollmentFlow.find()
+      .populate("studentId", "name email");
+
+    let payments = [];
+    let stats = {
+      pending: 0,
+      success: 0,
+      failed: 0,
+      totalAmount: 0
+    };
+
+    enrollments.forEach(enroll => {
+      enroll.items.forEach(item => {
+        const payment = item.payment;
+        if (!payment) return;
+
+       payments.push({
+         id: payment.paymentId,
+         enrollmentId: enroll._id,   // 🔥 ADD THIS
+         itemId: item._id,
+         date: payment.paidAt || enroll.createdAt,
+
+  student: enroll.studentId?.name,
+  email: enroll.studentId?.email,
+
+  course: item.course.courseName,
+  code: item.course.courseId,
+
+  // 🔥 price fallback
+  amount: payment.amount || item.course.price || 0,
+
+  status: payment.status,
+  transId: payment.paymentId
+});
+
+        if (payment.status === "pending") stats.pending++;
+
+if (payment.status === "success") {
+  stats.success++;
+
+  const amount = payment.amount || item.course.price || 0;
+
+  stats.totalAmount += amount;
+}
+
+if (payment.status === "failed") stats.failed++;
+      });
+    });
+
+    res.json({
+      payments,
+      stats: [
+        { label: "Pending Verification", value: stats.pending, color: "#f39c12" },
+        { label: "Verified Payments", value: stats.success, color: "#27ae60" },
+        { label: "Rejected", value: stats.failed, color: "#e74c3c" },
+        { label: "Total Verified Amount", value: `$${stats.totalAmount}`, color: "#8e44ad" }
+      ]
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+exports.updatePaymentStatus = async (req, res) => {
+  try {
+    const { enrollmentId, itemId } = req.params;
+    const { status, reason } = req.body;
+
+    const enrollment = await EnrollmentFlow.findById(enrollmentId);
+
+    if (!enrollment) {
+      return res.status(404).json({ message: "Enrollment not found" });
+    }
+
+    const item = enrollment.items.id(itemId);
+
+    if (!item) {
+      return res.status(404).json({ message: "Item not found" });
+    }
+
+    item.payment.status = status;
+
+    // optional reject reason
+    if (status === "failed") {
+      item.payment.rejectionReason = reason;
+    }
+
+    await enrollment.save();
+
+    res.json({ message: "Payment updated successfully" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
