@@ -6,51 +6,59 @@ exports.getStudentDashboard = async (req, res) => {
     const studentId = req.params.id;
 
     if (!studentId || studentId === "null") {
-      return res.status(400).json({ message: "Invalid student ID da 😅" });
+      return res.status(400).json({ message: "Invalid student ID" });
     }
 
     if (!mongoose.Types.ObjectId.isValid(studentId)) {
       return res.status(400).json({ message: "Invalid ObjectId format" });
     }
 
-    // 🔥 CORRECT QUERY
-    const flow = await EnrollmentFlow.findOne({ studentId })
+    // ✅ LLND completed உள்ள flow-ஐ முதல்ல தேடு
+    let flow = await EnrollmentFlow.findOne({
+      studentId,
+      "llnd.status": "completed"
+    })
+      .sort({ createdAt: -1 })
       .populate("studentId");
+
+    // ✅ இல்லன்னா latest flow எடு
+    if (!flow) {
+      flow = await EnrollmentFlow.findOne({ studentId })
+        .sort({ createdAt: -1 })
+        .populate("studentId");
+    }
 
     if (!flow) {
       return res.status(404).json({ message: "No enrollment data found" });
     }
 
-    const enrollment = await EnrollmentFlow.findOne({ studentId });
 
-let paymentVerified = false;
+    const paymentVerified = flow.items?.some(
+      item => item.payment?.status === "success"
+    ) || false;
 
-if (enrollment) {
-  enrollment.items.forEach(item => {
-    if (item.payment?.status === "success") {
-      paymentVerified = true;
-    }
-  });
-}
+    const llndScore = flow.llnd?.score || 0;
+    const llndStatus = flow.llnd?.status;
+    const assessmentPassed = llndStatus === "completed";
 
-  const response = {
-  studentName: flow.studentId?.name,
-  assessmentScore: flow.llnd?.score || 0,
-  paymentVerified,
-  assessmentPassed: flow.llnd?.status === "completed",
-  enrollmentFormApproved: flow.currentStep >= 4,
-  enrolledCourses: flow.items?.map(item => ({  // ✅ சேர்க்கணும்
-    courseId: item.course?.courseId,
-    courseName: item.course?.courseName,
-    price: item.course?.price,
-    paymentStatus: item.payment?.status || "Pending"
-  })) || []
-};
+    const response = {
+      studentName: flow.studentId?.name,
+      assessmentScore: llndScore,
+      paymentVerified,
+      assessmentPassed,
+      enrollmentFormApproved: flow.currentStep >= 4,
+      enrolledCourses: flow.items?.map(item => ({
+        courseId: item.course?.courseId,
+        courseName: item.course?.courseName,
+        price: item.course?.price,
+        paymentStatus: item.payment?.status || "Pending"
+      })) || []
+    };
 
     res.json(response);
 
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: "Server error da 😅" });
+    res.status(500).json({ message: "Server error" });
   }
 };

@@ -7,6 +7,9 @@ exports.createStudent = async (req, res) => {
   try {
     const data = req.body;
 
+    // ✅ Cloudinary image URL
+    const paymentSlipUrl = req.file ? req.file.path : null;
+
     let student = await StudentMain.findOne({ email: data.email });
 
     const rawPassword =
@@ -22,11 +25,14 @@ exports.createStudent = async (req, res) => {
         name: data.name,
         email: data.email,
         phone: data.phone,
-        password: hashedPassword, // ✅ FIXED
+        password: hashedPassword,
         courses: [
           {
             courseId: data.courseId,
             sessionId: data.sessionId,
+            paymentMethod: data.paymentMethod,   // ✅
+            transactionId: data.transactionId,   // ✅
+            slipUrl: paymentSlipUrl,              // ✅
             step: 2
           }
         ]
@@ -41,13 +47,15 @@ exports.createStudent = async (req, res) => {
         student.courses.push({
           courseId: data.courseId,
           sessionId: data.sessionId,
+          paymentMethod: data.paymentMethod,   // ✅
+          transactionId: data.transactionId,   // ✅
+          slipUrl: paymentSlipUrl,              // ✅
           step: 2
         });
       }
     }
 
     await student.save();
-
     res.json(student);
 
   } catch (err) {
@@ -101,7 +109,7 @@ exports.getStudentById = async (req, res) => {
 exports.updateStudent = async (req, res) => {
   try {
     const { id } = req.params;
-    
+
 
     const updated = await StudentMain.findByIdAndUpdate(
       id,
@@ -119,6 +127,7 @@ exports.getAllStudents = async (req, res) => {
   try {
     const data = await EnrollmentFlow.find()
       .populate("studentId")
+      .sort({ createdAt: -1 })
       .lean();
 
     const formatted = data.map((flow) => {
@@ -126,16 +135,30 @@ exports.getAllStudents = async (req, res) => {
       const item = flow.items?.[0] || {};
 
       return {
-        id: student._id,    
-flowId: flow._id ,
+        id: student._id,
+        flowId: flow._id,
 
-        registerDate: student.createdAt || null,
+        registerDate: student.createdAt? new Date(student.createdAt).toLocaleDateString("en-GB") : "—",
         name: student.name || "",
         email: student.email || "",
         phone: student.phone || "",
+        type: student.enrollmentType
+          ? student.enrollmentType.charAt(0).toUpperCase() + student.enrollmentType.slice(1)
+          : "Individual",
 
-        course: item.course?.courseName || "",
-        courseBookingDate: flow.createdAt,
+        courseCategory: item.course?.courseCategory || "",  // ✅ "Short Courses"
+        courseTitle: item.course?.courseName || "",         // ✅ "Rigging Course"
+        course: item.course?.courseName || "", 
+        paymentMethod: item.payment?.method || "—",
+        transactionId: item.payment?.transactionId || "—",
+        slipUrl: item.payment?.slipUrl || "—",
+        courseBookingDate: flow.sessionDate
+          ? `${new Date(flow.sessionDate).toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "short",
+            year: "numeric"
+          })} | ${flow.startTime} - ${flow.endTime}`
+          : "-",
 
         llndStatus:
           flow.llnd?.status === "completed"
@@ -143,11 +166,19 @@ flowId: flow._id ,
             : "Not Completed",
 
         enrollmentForm: flow.enrollmentFormId
-          ? "Completed" 
+          ? "Completed"
           : "Not Completed",
 
-        paymentStatus:
-          item.payment?.status === "success" ? "Paid" : "Unpaid",
+        
+paymentStatus: item.payment?.method === "Card Payment"
+  ? item.payment?.status === "success"
+    ? "Paid"
+    : "Unpaid"
+  : item.payment?.method === "Bank Transfer"
+    ? item.payment?.status === "success"
+      ? "Verified"
+      :  "Not Verified"
+    : "—",
 
         status: flow.status === "active" ? "Active" : "Inactive",
 
@@ -186,7 +217,7 @@ exports.deleteStudent = async (req, res) => {
 
 exports.updateStudentStatus = async (req, res) => {
   try {
-    
+
     const updated = await EnrollmentFlow.findByIdAndUpdate(
       req.params.id,
       { status: req.body.status.toLowerCase() },

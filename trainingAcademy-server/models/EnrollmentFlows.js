@@ -14,6 +14,7 @@ const EnrollmentFlowSchema = new mongoose.Schema({
       course: {
         courseId: mongoose.Schema.Types.ObjectId,
         courseName: String,
+        courseCategory: String,
         price: Number
       },
 
@@ -25,7 +26,10 @@ const EnrollmentFlowSchema = new mongoose.Schema({
         },
         paymentId: String,
         amount: Number,
-        paidAt: Date
+        paidAt: Date,  method: String,        // ✅ add
+  transactionId: String, // ✅ add
+  slipUrl: String,       // ✅ add
+  rejectionReason: String
       },
 
       status: {
@@ -61,7 +65,9 @@ const EnrollmentFlowSchema = new mongoose.Schema({
       default: "not_started"
     }
   },
-
+sessionDate: Date,
+startTime: String,
+endTime: String,
   enrollmentFormId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "EnrollmentForm"

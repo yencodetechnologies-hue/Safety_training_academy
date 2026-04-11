@@ -27,38 +27,40 @@ const studentMainSchema = new mongoose.Schema(
       required: true,
     },
 
-    courses: [
-      {
-        courseId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Course"
-        },
+   courses: [
+  {
+    courseId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Course"
+    },
 
-        sessionId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Schedule"
-        },
+    sessionId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Schedule"
+    },
 
-        paymentMethod: String,
-        transactionId: String,
+    paymentMethod: String,
+    transactionId: String,
+    slipUrl: String,  // ✅ add
 
-        step: {
-          type: Number,
-          default: 1
-        },
+    step: {
+      type: Number,
+      default: 1
+    },
 
-        status: {
-          type: String,
-          enum: ["draft", "completed"],
-          default: "draft"
-        },
+    status: {
+      type: String,
+      enum: ["draft", "completed"],
+      default: "draft"
+    },
 
-        createdAt: {
-          type: Date,
-          default: Date.now
-        }
-      }
-    ], assessmentId: {
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+  }
+],
+     assessmentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "LLNDAssessment"
     },

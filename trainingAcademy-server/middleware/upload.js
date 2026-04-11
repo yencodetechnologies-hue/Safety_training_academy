@@ -2,14 +2,23 @@ const multer = require("multer")
 const { CloudinaryStorage } = require("multer-storage-cloudinary")
 const cloudinary = require("../config/cloudinary")
 
-const storage = new CloudinaryStorage({
+const courseStorage = new CloudinaryStorage({
   cloudinary,
-  params:{
-    folder:"courses",
-    allowed_formats:["jpg","png","jpeg","webp"]
+  params: {
+    folder: "courses",
+    allowed_formats: ["jpg", "png", "jpeg", "webp"]
   }
 })
 
-const upload = multer({ storage })
+const paymentStorage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "payment-slips",
+    allowed_formats: ["jpg", "png", "jpeg", "webp", "pdf"]
+  }
+})
 
-module.exports = upload
+const uploadCourse = multer({ storage: courseStorage })
+const uploadPayment = multer({ storage: paymentStorage })
+
+module.exports = { uploadCourse, uploadPayment }

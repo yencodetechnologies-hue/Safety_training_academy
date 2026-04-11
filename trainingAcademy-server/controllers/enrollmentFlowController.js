@@ -1,18 +1,42 @@
 const EnrollmentFlow = require("../models/EnrollmentFlows");
+const mongoose = require("mongoose");
 
 // ✅ Create new flow
 exports.createFlow = async (req, res) => {
   try {
-    const { studentId, course,enrollmentType } = req.body;
+    const {
+      studentId,
+      courseId,
+      courseCategory,
+      courseName,
+      price,
+      enrollmentType,
+      sessionDate,
+      startTime,
+      endTime,
+      paymentMethod,
+      transactionId,
+      slipUrl        // ✅ add பண்ணுங்க
+    } = req.body;
 
     const flow = await EnrollmentFlow.create({
       studentId,
-       enrollmentType: enrollmentType || "Individual", 
+      enrollmentType: enrollmentType || "Individual",
+      sessionDate,
+      startTime,
+      endTime,
       items: [{
         course: {
-          courseId: course.courseId,
-          courseName: course.courseName,
-          price: course.price
+          courseId,
+          price,
+          courseCategory,
+          courseName,
+        },
+        payment: {
+          method: paymentMethod,
+          transactionId,
+          slipUrl,       // ✅ req.body-ல் இருந்து வந்த URL
+          status: "pending",
         }
       }],
       meta: {
@@ -57,6 +81,9 @@ exports.updatePayment = async (req, res) => {
   try {
     const { flowId, courseId, payment } = req.body;
 
+    // ✅ Cloudinary image URL
+    const paymentSlipUrl = req.file ? req.file.path : null;
+
     await EnrollmentFlow.updateOne(
       { _id: flowId, "items.course.courseId": courseId },
       {
@@ -64,6 +91,9 @@ exports.updatePayment = async (req, res) => {
           "items.$.payment.status": payment.status,
           "items.$.payment.paymentId": payment.paymentId,
           "items.$.payment.amount": payment.amount,
+          "items.$.payment.method": payment.method,           // ✅ payment method
+          "items.$.payment.transactionId": payment.transactionId, // ✅ transaction ID
+          "items.$.payment.slipUrl": paymentSlipUrl,          // ✅ image URL
           "items.$.payment.paidAt": new Date(),
           currentStep: 2
         }
@@ -80,14 +110,25 @@ exports.updatePayment = async (req, res) => {
 // ✅ Save LLND
 exports.saveLLND = async (req, res) => {
   try {
-    const { flowId, ...rest } = req.body;
+    const { flowId, ...rest } = req.body; // ✅ முதல்ல இது
+
+    // ✅ இப்போ log பண்ணு
+  
 
     if (!flowId) {
       return res.status(400).json({ error: "Flow ID missing" });
     }
 
+    if (!mongoose.Types.ObjectId.isValid(flowId)) {
+      return res.status(400).json({ error: "Invalid flowId" });
+    }
 
-    // 🔥 format answers
+    const existing = await EnrollmentFlow.findById(flowId);
+
+    if (!existing) {
+      return res.status(404).json({ error: "Flow not found for id: " + flowId });
+    }
+
     const formattedAnswers = Object.entries(rest.answers || {}).flatMap(
       ([section, answers]) =>
         Object.entries(answers).map(([key, value]) => ({
@@ -99,29 +140,27 @@ exports.saveLLND = async (req, res) => {
     const updated = await EnrollmentFlow.findByIdAndUpdate(
       flowId,
       {
-        llnd: {
-          answers: formattedAnswers,
-          score: Number(rest.percentage) || 0,
-          status: "completed",
-
-          summary: {
-            total: rest.total,
-            correct: rest.correct,
-            percentage: Number(rest.percentage),
-            sections: rest.sections || []
-          }
-        },
-
-        llndRaw: rest, // optional
-
-        currentStep: 3
+        $set: {
+          "llnd.answers": formattedAnswers,
+          "llnd.score": Number(rest.percentage) || 0,
+          "llnd.status": "completed",
+          "llnd.summary.total": rest.total,
+          "llnd.summary.correct": rest.correct,
+          "llnd.summary.percentage": Number(rest.percentage),
+          "llnd.summary.sections": rest.sections || [],
+          llndRaw: rest,
+          currentStep: 3
+        }
       },
-      { new: true, runValidators: true }
+      { returnDocument: "after" }
     );
+
+
 
     res.json(updated);
 
   } catch (err) {
+    console.error("saveLLND error:", err);
     res.status(500).json({ error: err.message });
   }
 };
@@ -219,7 +258,8 @@ exports.getLLNDResults = async (req, res) => {
 exports.getAllPayments = async (req, res) => {
   try {
     const enrollments = await EnrollmentFlow.find()
-      .populate("studentId", "name email");
+      .populate("studentId", "name email")
+      .sort({ createdAt: -1 });
 
     let payments = [];
     let stats = {
@@ -234,36 +274,39 @@ exports.getAllPayments = async (req, res) => {
         const payment = item.payment;
         if (!payment) return;
 
-       payments.push({
-         id: payment.paymentId,
-         enrollmentId: enroll._id,   // 🔥 ADD THIS
-         itemId: item._id,
-         date: payment.paidAt || enroll.createdAt,
+        payments.push({
+          id: payment.paymentId,
+          enrollmentId: enroll._id,   // 🔥 ADD THIS
+          itemId: item._id,
+          date: payment.paidAt || enroll.createdAt,
 
-  student: enroll.studentId?.name,
-  email: enroll.studentId?.email,
+          student: enroll.studentId?.name,
+          email: enroll.studentId?.email,
 
-  course: item.course.courseName,
-  code: item.course.courseId,
+          course: item.course.courseName,
+          code: item.course.courseId,
 
-  // 🔥 price fallback
-  amount: payment.amount || item.course.price || 0,
+          // 🔥 price fallback
+          amount: payment.amount || item.course.price || 0,
 
-  status: payment.status,
-  transId: payment.paymentId
-});
+          status: payment.status,
+          transId: payment.transactionId,  // ✅ paymentId இல்லை — transactionId
+          method: payment.method,           // ✅ payment method
+          type: enroll.enrollmentType || "Individual",  // ✅ Individual/Company
+          slipUrl: payment.slipUrl || null, // ✅ image URL
+        });
 
         if (payment.status === "pending") stats.pending++;
 
-if (payment.status === "success") {
-  stats.success++;
+        if (payment.status === "success") {
+          stats.success++;
 
-  const amount = payment.amount || item.course.price || 0;
+          const amount = payment.amount || item.course.price || 0;
 
-  stats.totalAmount += amount;
-}
+          stats.totalAmount += amount;
+        }
 
-if (payment.status === "failed") stats.failed++;
+        if (payment.status === "failed") stats.failed++;
       });
     });
 

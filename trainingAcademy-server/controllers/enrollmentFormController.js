@@ -125,5 +125,31 @@ const getEnrollmentForms = async (req, res) => {
   }
 };
 
-module.exports = { createEnrollmentForm, getEnrollmentForms };
+const updateEnrollmentStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    if (!["Approved", "Rejected", "Pending"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    const updated = await EnrollmentForm.findByIdAndUpdate(
+      req.params.id,
+      { status },
+      { new: true }
+    );
+
+    if (!updated) {
+      return res.status(404).json({ message: "Form not found" });
+    }
+
+    res.json(updated);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+
+
+module.exports = { createEnrollmentForm, getEnrollmentForms,updateEnrollmentStatus };
 
